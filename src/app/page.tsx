@@ -381,26 +381,28 @@ export default function OmniStudyDashboard() {
 
           {/* Audio File Upload Input */}
           <div>
-            <label className="text-xs font-medium text-slate-300 mb-1.5 flex items-center justify-between">
+            <div className="text-xs font-medium text-slate-300 mb-1.5 flex items-center justify-between">
               <span>Import Audio File</span>
               <span className="text-[10px] text-slate-500">MP3, WAV, M4A</span>
-            </label>
+            </div>
             <input
+              id="audio-file-input"
               type="file"
               ref={audioFileInputRef}
               onChange={handleAudioUpload}
               accept="audio/*"
-              className="hidden"
+              className="sr-only"
             />
-            <button
+            <label
+              htmlFor="audio-file-input"
               onClick={() => audioFileInputRef.current?.click()}
-              className="w-full border border-dashed border-slate-700 hover:border-indigo-500/60 bg-slate-900/50 hover:bg-slate-900 transition-colors rounded-xl p-3 flex items-center justify-center gap-2 text-xs text-slate-300 group"
+              className="w-full border border-dashed border-slate-700 hover:border-indigo-500/60 bg-slate-900/50 hover:bg-slate-900 transition-colors rounded-xl p-3 flex items-center justify-center gap-2 text-xs text-slate-300 group cursor-pointer"
             >
               <Upload className="w-3.5 h-3.5 text-slate-400 group-hover:text-indigo-400 transition-colors" />
               <span className="truncate">
                 {audioFileName ? audioFileName : "Choose audio file to transcribe..."}
               </span>
-            </button>
+            </label>
           </div>
 
           {/* Live Transcript Section */}
@@ -479,20 +481,16 @@ export default function OmniStudyDashboard() {
 
           {/* Action Bar: Upload Whiteboard/Slide button */}
           <div className="flex flex-col sm:flex-row gap-2.5">
-            <input
-              type="file"
-              ref={imageFileInputRef}
-              onChange={handleImageUpload}
-              accept="image/*"
-              className="hidden"
-            />
-            <button
-              onClick={() => imageFileInputRef.current?.click()}
-              className="flex-1 py-2.5 px-4 rounded-xl bg-gradient-to-r from-cyan-600 to-teal-600 hover:from-cyan-500 hover:to-teal-500 text-white font-medium text-xs flex items-center justify-center gap-2 transition-all shadow-md shadow-cyan-900/20 hover:scale-[1.005]"
-            >
+            <label className="flex-1 py-2.5 px-4 rounded-xl bg-gradient-to-r from-cyan-600 to-teal-600 hover:from-cyan-500 hover:to-teal-500 text-white font-medium text-xs flex items-center justify-center gap-2 transition-all shadow-md shadow-cyan-900/20 hover:scale-[1.005] cursor-pointer select-none">
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
+                className="sr-only"
+              />
               <Upload className="w-4 h-4" />
               <span>Upload Whiteboard/Slide</span>
-            </button>
+            </label>
           </div>
 
           {/* Large Placeholder Box for Image Display */}
@@ -516,13 +514,15 @@ export default function OmniStudyDashboard() {
                     </span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <button
-                      type="button"
-                      onClick={() => imageFileInputRef.current?.click()}
-                      className="text-[10px] text-cyan-400 hover:text-cyan-300 hover:underline px-1 py-0.5"
-                    >
+                    <label className="text-[10px] text-cyan-400 hover:text-cyan-300 hover:underline px-1 py-0.5 cursor-pointer">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                        className="sr-only"
+                      />
                       Change
-                    </button>
+                    </label>
                     <span className="text-[10px] text-cyan-400 bg-cyan-950/60 border border-cyan-800/50 px-2 py-0.5 rounded">
                       Visual Preview Active
                     </span>
@@ -552,13 +552,18 @@ export default function OmniStudyDashboard() {
             ) : (
               /* Empty Placeholder State */
               <div className="text-center p-8 max-w-sm flex flex-col items-center">
-                <div
-                  onClick={() => imageFileInputRef.current?.click()}
+                <label
                   className="w-16 h-16 rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-center mb-4 text-slate-500 group-hover:text-cyan-400 group-hover:border-cyan-500/30 transition-all duration-300 cursor-pointer"
                   title="Click to browse image"
                 >
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    className="sr-only"
+                  />
                   <ImageIcon className="w-8 h-8" />
-                </div>
+                </label>
                 <h3 className="text-sm font-semibold text-slate-200 mb-1">
                   No visual board loaded
                 </h3>
@@ -566,13 +571,16 @@ export default function OmniStudyDashboard() {
                   Drop a photo of the lecture whiteboard, PowerPoint slide, or diagram. OmniStudy will correlate it with the spoken transcript.
                 </p>
                 <div className="flex gap-2">
-                  <button
-                    type="button"
-                    onClick={() => imageFileInputRef.current?.click()}
-                    className="px-3.5 py-1.5 text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg border border-slate-700 transition-colors cursor-pointer font-medium"
-                  >
+                  <label className="px-3.5 py-1.5 text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg border border-slate-700 transition-colors cursor-pointer font-medium inline-flex items-center justify-center select-none">
+                    <input
+                      type="file"
+                      ref={imageFileInputRef}
+                      accept="image/*"
+                      onChange={handleImageUpload}
+                      className="sr-only"
+                    />
                     Browse Files
-                  </button>
+                  </label>
                   <button
                     type="button"
                     onClick={loadSampleWhiteboard}
