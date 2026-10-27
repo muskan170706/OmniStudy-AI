@@ -45,6 +45,7 @@ export default function OmniStudyDashboard() {
   // --- Middle Column: Visual Board States ---
   const [boardImage, setBoardImage] = useState<string | null>(null);
   const [boardImageName, setBoardImageName] = useState<string | null>(null);
+  const [isDraggingOver, setIsDraggingOver] = useState(false);
 
   // --- Right Column: AI Tutor States ---
   const [chatInput, setChatInput] = useState("");
@@ -133,6 +134,31 @@ export default function OmniStudyDashboard() {
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      setBoardImageName(file.name);
+      const url = URL.createObjectURL(file);
+      setBoardImage(url);
+      e.target.value = "";
+    }
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDraggingOver(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDraggingOver(false);
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDraggingOver(false);
+    const file = e.dataTransfer.files?.[0];
+    if (file && file.type.startsWith("image/")) {
       setBoardImageName(file.name);
       const url = URL.createObjectURL(file);
       setBoardImage(url);
@@ -470,7 +496,16 @@ export default function OmniStudyDashboard() {
           </div>
 
           {/* Large Placeholder Box for Image Display */}
-          <div className="flex-1 min-h-[360px] lg:min-h-[440px] bg-[#070b16] border-2 border-dashed border-slate-800 rounded-2xl flex flex-col items-center justify-center relative overflow-hidden group">
+          <div
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}
+            className={`flex-1 min-h-[360px] lg:min-h-[440px] bg-[#070b16] border-2 border-dashed rounded-2xl flex flex-col items-center justify-center relative overflow-hidden transition-all duration-200 group ${
+              isDraggingOver
+                ? "border-cyan-400 bg-cyan-950/20 shadow-lg shadow-cyan-500/10"
+                : "border-slate-800 hover:border-slate-700"
+            }`}
+          >
             {boardImage ? (
               <div className="w-full h-full flex flex-col p-2">
                 <div className="flex items-center justify-between px-3 py-1.5 bg-slate-900/90 rounded-lg border border-slate-800 mb-2">
@@ -480,27 +515,36 @@ export default function OmniStudyDashboard() {
                       {boardImageName || "whiteboard_capture.png"}
                     </span>
                   </div>
-                  <span className="text-[10px] text-cyan-400 bg-cyan-950/60 border border-cyan-800/50 px-2 py-0.5 rounded">
-                    OCR & Diagram Indexed
-                  </span>
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => imageFileInputRef.current?.click()}
+                      className="text-[10px] text-cyan-400 hover:text-cyan-300 hover:underline px-1 py-0.5"
+                    >
+                      Change
+                    </button>
+                    <span className="text-[10px] text-cyan-400 bg-cyan-950/60 border border-cyan-800/50 px-2 py-0.5 rounded">
+                      Visual Preview Active
+                    </span>
+                  </div>
                 </div>
                 
                 {/* Image Container */}
-                <div className="relative flex-1 rounded-xl overflow-hidden bg-slate-950 border border-slate-800/60 flex items-center justify-center">
+                <div className="relative flex-1 rounded-xl overflow-hidden bg-slate-950 border border-slate-800/60 flex items-center justify-center p-1">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={boardImage}
                     alt="Uploaded Whiteboard or Slide"
-                    className="max-h-full max-w-full object-contain"
+                    className="max-h-full max-w-full object-contain rounded-lg"
                   />
                   
                   {/* Overlay tags simulating AI visual detection */}
                   <div className="absolute bottom-3 left-3 flex flex-wrap gap-2 pointer-events-none">
                     <span className="text-[10px] bg-slate-950/80 backdrop-blur border border-indigo-500/40 text-indigo-300 px-2 py-0.5 rounded-md shadow">
-                      📌 State Diagram Identified
+                      📌 Visual Content Loaded
                     </span>
                     <span className="text-[10px] bg-slate-950/80 backdrop-blur border border-emerald-500/40 text-emerald-300 px-2 py-0.5 rounded-md shadow">
-                      ✓ Mathematical Quorum Formula
+                      ✓ Ready for AI Analysis
                     </span>
                   </div>
                 </div>
@@ -508,7 +552,11 @@ export default function OmniStudyDashboard() {
             ) : (
               /* Empty Placeholder State */
               <div className="text-center p-8 max-w-sm flex flex-col items-center">
-                <div className="w-16 h-16 rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-center mb-4 text-slate-500 group-hover:text-cyan-400 group-hover:border-cyan-500/30 transition-all duration-300">
+                <div
+                  onClick={() => imageFileInputRef.current?.click()}
+                  className="w-16 h-16 rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-center mb-4 text-slate-500 group-hover:text-cyan-400 group-hover:border-cyan-500/30 transition-all duration-300 cursor-pointer"
+                  title="Click to browse image"
+                >
                   <ImageIcon className="w-8 h-8" />
                 </div>
                 <h3 className="text-sm font-semibold text-slate-200 mb-1">
@@ -519,14 +567,16 @@ export default function OmniStudyDashboard() {
                 </p>
                 <div className="flex gap-2">
                   <button
+                    type="button"
                     onClick={() => imageFileInputRef.current?.click()}
-                    className="px-3 py-1.5 text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg border border-slate-700 transition-colors"
+                    className="px-3.5 py-1.5 text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg border border-slate-700 transition-colors cursor-pointer font-medium"
                   >
                     Browse Files
                   </button>
                   <button
+                    type="button"
                     onClick={loadSampleWhiteboard}
-                    className="px-3 py-1.5 text-xs bg-cyan-600/20 hover:bg-cyan-600/30 text-cyan-300 border border-cyan-500/30 rounded-lg transition-colors font-medium"
+                    className="px-3 py-1.5 text-xs bg-cyan-600/20 hover:bg-cyan-600/30 text-cyan-300 border border-cyan-500/30 rounded-lg transition-colors font-medium cursor-pointer"
                   >
                     View Sample Board
                   </button>
