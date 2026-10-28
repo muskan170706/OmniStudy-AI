@@ -19,6 +19,14 @@ import {
   Volume2,
   Loader2,
   LogOut,
+  Flame,
+  Plus,
+  MessageSquare,
+  Clock,
+  TrendingUp,
+  PanelLeft,
+  X,
+  Search,
 } from "lucide-react";
 
 interface Flashcard {
@@ -35,7 +43,71 @@ interface Message {
   flashcardPreview?: Flashcard;
 }
 
+interface StudySession {
+  id: string;
+  title: string;
+  course: string;
+  date: string;
+  cardsCount: number;
+}
+
 export default function OmniStudyDashboard() {
+  // --- Left Sidebar: User & Session History States ---
+  const [sessions, setSessions] = useState<StudySession[]>([
+    {
+      id: "1",
+      title: "Raft & Paxos Consensus",
+      course: "CS 301",
+      date: "Active now",
+      cardsCount: 3,
+    },
+    {
+      id: "2",
+      title: "Eigenvalues & Spectral Theorem",
+      course: "MATH 240",
+      date: "Yesterday",
+      cardsCount: 8,
+    },
+    {
+      id: "3",
+      title: "Cellular Respiration & ATP",
+      course: "BIO 110",
+      date: "2 days ago",
+      cardsCount: 12,
+    },
+    {
+      id: "4",
+      title: "Quantum Tunneling & Waves",
+      course: "PHYS 202",
+      date: "3 days ago",
+      cardsCount: 6,
+    },
+    {
+      id: "5",
+      title: "Self-Attention & Transformers",
+      course: "AI 405",
+      date: "5 days ago",
+      cardsCount: 15,
+    },
+    {
+      id: "6",
+      title: "Thermodynamic Equilibrium",
+      course: "CHEM 102",
+      date: "Oct 21",
+      cardsCount: 9,
+    },
+    {
+      id: "7",
+      title: "Epistemology & Rationalism",
+      course: "PHIL 101",
+      date: "Oct 18",
+      cardsCount: 5,
+    },
+  ]);
+  const [selectedSessionId, setSelectedSessionId] = useState("1");
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [sessionSearch, setSessionSearch] = useState("");
+
   // --- Left Column: Audio Capture States ---
   const [isRecording, setIsRecording] = useState(false);
   const [recordDuration, setRecordDuration] = useState(0);
@@ -390,27 +462,36 @@ export default function OmniStudyDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-[#070b14] text-slate-100 flex flex-col font-sans selection:bg-indigo-500/30 selection:text-indigo-200">
+    <div className="h-screen bg-[#070b14] text-slate-100 flex flex-col font-sans selection:bg-indigo-500/30 selection:text-indigo-200 overflow-hidden">
       {/* Top Navigation Bar */}
-      <header className="h-16 border-b border-slate-800/80 bg-[#0b101e]/80 backdrop-blur-md sticky top-0 z-50 px-4 lg:px-6 flex items-center justify-between">
+      <header className="h-14 lg:h-16 border-b border-slate-800/80 bg-[#0b101e]/90 backdrop-blur-md sticky top-0 z-40 px-3 lg:px-6 flex items-center justify-between shrink-0">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-cyan-400 p-[1px] shadow-lg shadow-indigo-500/20">
+          {/* Mobile sidebar toggle button */}
+          <button
+            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+            className="lg:hidden p-2 text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 rounded-lg transition-colors"
+            title="Toggle session history sidebar"
+          >
+            <PanelLeft className="w-5 h-5 text-indigo-400" />
+          </button>
+
+          <div className="w-9 h-9 lg:w-10 lg:h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-cyan-400 p-[1px] shadow-lg shadow-indigo-500/20 shrink-0">
             <div className="w-full h-full bg-[#0b101e] rounded-[11px] flex items-center justify-center">
               <BrainCircuit className="w-5 h-5 text-indigo-400" />
             </div>
           </div>
           <div>
-            <h1 className="font-extrabold text-xl tracking-tight text-white flex items-center gap-1.5">
+            <h1 className="font-extrabold text-lg lg:text-xl tracking-tight text-white flex items-center gap-1.5">
               <span>OmniStudy</span>
               <span className="text-indigo-400 font-black">AI</span>
             </h1>
-            <p className="text-xs text-slate-300 hidden sm:block font-medium">
+            <p className="text-[11px] text-slate-300 hidden sm:block font-medium">
               Multimodal Real-Time Lecture & Visual Comprehension
             </p>
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 lg:gap-3">
           <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-900/90 border border-slate-800 text-xs text-slate-300">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
             <span>Session: CS 301 • Distributed Systems</span>
@@ -443,8 +524,210 @@ export default function OmniStudyDashboard() {
         </div>
       </header>
 
-      {/* Main 3-Column Dashboard Content */}
-      <main className="flex-1 p-3 lg:p-5 max-w-[1920px] w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-5">
+      {/* Body Container: Left Sidebar + Main Workspace */}
+      <div className="flex-1 flex overflow-hidden relative">
+        {/* Mobile backdrop */}
+        {isSidebarOpen && (
+          <div
+            onClick={() => setIsSidebarOpen(false)}
+            className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-40 lg:hidden"
+          />
+        )}
+
+        {/* ======================================================== */}
+        {/* NEW FIXED LEFT SIDEBAR: Profile & Session History        */}
+        {/* ======================================================== */}
+        <aside
+          className={`fixed lg:static top-0 bottom-0 left-0 z-50 lg:z-auto w-72 xl:w-80 bg-[#090e1a] border-r border-slate-800/80 flex flex-col shrink-0 transition-transform duration-300 ease-in-out ${
+            isSidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+          }`}
+        >
+          {/* Mobile close bar */}
+          <div className="lg:hidden flex items-center justify-between p-3.5 border-b border-slate-800 bg-[#0c1222]">
+            <span className="text-xs font-semibold text-slate-200">Study History & Profile</span>
+            <button
+              onClick={() => setIsSidebarOpen(false)}
+              className="p-1.5 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800 transition-colors"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+
+          {/* User Profile Area (Top) */}
+          <div className="p-4 border-b border-slate-800/80 bg-[#0c1222]/80 shrink-0">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="relative shrink-0">
+                <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-cyan-400 p-[1.5px] shadow-lg shadow-indigo-950/40">
+                  <div className="w-full h-full rounded-[14px] bg-[#0d1322] flex items-center justify-center font-bold text-sm text-indigo-300">
+                    MK
+                  </div>
+                </div>
+                <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-emerald-500 border-2 border-[#090e1a] rounded-full" />
+              </div>
+
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-xs font-bold text-white truncate">Muskan Kataria</h3>
+                  <span className="text-[9px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+                    PRO
+                  </span>
+                </div>
+                <p className="text-[11px] text-slate-400 truncate">Computer Science • Senior</p>
+              </div>
+            </div>
+
+            {/* 'Active Days' Streak Counter */}
+            <div className="mb-3 p-2.5 rounded-xl bg-gradient-to-r from-amber-500/10 via-orange-500/10 to-amber-500/5 border border-orange-500/30 flex items-center justify-between shadow-sm">
+              <div className="flex items-center gap-2">
+                <div className="p-1 rounded-lg bg-orange-500/20 text-orange-400">
+                  <Flame className="w-4 h-4 fill-orange-400" />
+                </div>
+                <div>
+                  <div className="text-xs font-bold text-orange-200">14 Days Streak</div>
+                  <div className="text-[10px] text-orange-400/80">Active Study Consistency</div>
+                </div>
+              </div>
+              <span className="text-[10px] font-mono text-orange-300 bg-orange-950/70 px-2 py-0.5 rounded border border-orange-800/50">
+                Top 5%
+              </span>
+            </div>
+
+            {/* 'Recent Topics Studied' Stats */}
+            <div>
+              <div className="flex items-center justify-between text-[11px] text-slate-400 mb-1.5 font-medium">
+                <span className="flex items-center gap-1 text-slate-300">
+                  <TrendingUp className="w-3 h-3 text-cyan-400" /> Recent Topics Studied
+                </span>
+                <span className="text-cyan-400 font-semibold font-mono">18 Topics</span>
+              </div>
+              <div className="grid grid-cols-2 gap-2 text-center">
+                <div className="p-2 rounded-lg bg-[#070b16] border border-slate-800/80">
+                  <span className="block text-[10px] text-slate-500">Mastered Decks</span>
+                  <span className="text-xs font-bold text-slate-200">42 Cards</span>
+                </div>
+                <div className="p-2 rounded-lg bg-[#070b16] border border-slate-800/80">
+                  <span className="block text-[10px] text-slate-500">Study Hours</span>
+                  <span className="text-xs font-bold text-slate-200">19.5 hrs</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* New Study Session Button */}
+          <div className="p-3 border-b border-slate-800/60 bg-[#090e1a] shrink-0">
+            <button
+              onClick={() => {
+                setTranscript("");
+                setBoardImage(null);
+                setBoardImageName(null);
+                setAudioFileName(null);
+                const newId = Date.now().toString();
+                const newSession: StudySession = {
+                  id: newId,
+                  title: "New Untitled Lecture",
+                  course: "GENERAL",
+                  date: "Just now",
+                  cardsCount: 0,
+                };
+                setSessions([newSession, ...sessions]);
+                setSelectedSessionId(newId);
+              }}
+              className="w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-500 hover:to-indigo-600 text-white text-xs font-medium flex items-center justify-center gap-2 shadow-md shadow-indigo-900/30 transition-all hover:scale-[1.01] cursor-pointer"
+            >
+              <Plus className="w-3.5 h-3.5" />
+              <span>New Study Session</span>
+            </button>
+          </div>
+
+          {/* Chat / Session History Area (Middle/Bottom) */}
+          <div className="flex-1 flex flex-col min-h-0 p-3 bg-[#090e1a]">
+            <div className="flex items-center justify-between mb-2 px-1">
+              <span className="text-[11px] font-semibold text-slate-300 flex items-center gap-1.5">
+                <Clock className="w-3.5 h-3.5 text-indigo-400" />
+                <span>Session History</span>
+              </span>
+              <span className="text-[10px] text-slate-500 bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800 font-mono">
+                {sessions.length}
+              </span>
+            </div>
+
+            {/* Quick Filter Search */}
+            <div className="relative mb-2.5">
+              <Search className="w-3.5 h-3.5 text-slate-500 absolute left-2.5 top-1/2 -translate-y-1/2" />
+              <input
+                type="text"
+                value={sessionSearch}
+                onChange={(e) => setSessionSearch(e.target.value)}
+                placeholder="Search past lectures & boards..."
+                className="w-full bg-[#070b16] border border-slate-800 rounded-lg pl-8 pr-2.5 py-1.5 text-[11px] text-slate-300 placeholder-slate-600 focus:outline-none focus:ring-1 focus:ring-indigo-500/50"
+              />
+            </div>
+
+            {/* Scrollable list of dummy previous study sessions */}
+            <div className="flex-1 overflow-y-auto space-y-1.5 pr-1">
+              {sessions
+                .filter(
+                  (s) =>
+                    s.title.toLowerCase().includes(sessionSearch.toLowerCase()) ||
+                    s.course.toLowerCase().includes(sessionSearch.toLowerCase())
+                )
+                .map((session) => {
+                  const isSelected = session.id === selectedSessionId;
+                  return (
+                    <button
+                      key={session.id}
+                      onClick={() => {
+                        setSelectedSessionId(session.id);
+                        if (isSidebarOpen) setIsSidebarOpen(false);
+                      }}
+                      className={`w-full text-left p-2.5 rounded-xl border transition-all flex flex-col gap-1 cursor-pointer group ${
+                        isSelected
+                          ? "bg-indigo-950/50 border-indigo-500/40 text-white shadow-sm"
+                          : "bg-slate-900/30 hover:bg-slate-900/70 border-slate-800/60 text-slate-300 hover:border-slate-700"
+                      }`}
+                    >
+                      <div className="flex items-center justify-between">
+                        <span
+                          className={`text-[9px] font-mono uppercase font-bold px-1.5 py-0.2 rounded border ${
+                            isSelected
+                              ? "bg-indigo-500/20 border-indigo-500/40 text-indigo-300"
+                              : "bg-slate-800 border-slate-700 text-slate-400 group-hover:text-slate-300"
+                          }`}
+                        >
+                          {session.course}
+                        </span>
+                        <span className="text-[10px] text-slate-500">{session.date}</span>
+                      </div>
+                      <p className="text-xs font-medium truncate leading-tight">
+                        {session.title}
+                      </p>
+                      <div className="flex items-center justify-between text-[10px] text-slate-500 mt-0.5">
+                        <span className="flex items-center gap-1 text-[10px]">
+                          <MessageSquare className="w-2.5 h-2.5" /> Transcribed
+                        </span>
+                        <span>{session.cardsCount} cards</span>
+                      </div>
+                    </button>
+                  );
+                })}
+            </div>
+          </div>
+
+          {/* Sidebar Footer Info */}
+          <div className="p-3 border-t border-slate-800/80 bg-[#070b16]/70 flex items-center justify-between text-[10px] text-slate-500 shrink-0">
+            <span className="flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+              Auto-saved to Cloud
+            </span>
+            <span className="font-mono">v2.5</span>
+          </div>
+        </aside>
+
+        {/* ======================================================== */}
+        {/* MAIN CONTENT AREA: 3-Column Workspace to the Right      */}
+        {/* ======================================================== */}
+        <main className="flex-1 h-full overflow-y-auto p-3 lg:p-4 bg-[#070b14] flex flex-col">
+          <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-3.5 lg:gap-4 min-h-0">
         
         {/* ======================================================== */}
         {/* LEFT COLUMN: Audio Capture (span 3 / 12 on large screens) */}
@@ -939,7 +1222,9 @@ export default function OmniStudyDashboard() {
             </button>
           </form>
         </section>
-      </main>
+          </div>
+        </main>
+      </div>
     </div>
   );
 }
