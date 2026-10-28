@@ -2,15 +2,12 @@ import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   try {
-    const formData = await request.formData().catch(() => null);
-    const file = formData ? formData.get("file") || formData.get("image") : null;
+    // Optionally parse formData or request body if sent
+    // const formData = await request.formData();
+    // const file = formData.get("image");
 
-    if (file && typeof file === "object" && "name" in file) {
-      console.log(`[Vision API] Received image file: ${file.name} (${file.size} bytes)`);
-    }
-
-    // Simulate AI Vision processing latency
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    // Dummy delay to simulate model inference (e.g., 600ms)
+    await new Promise((resolve) => setTimeout(resolve, 600));
 
     return NextResponse.json({
       success: true,
@@ -18,14 +15,10 @@ export async function POST(request: Request) {
       flashcards: ["Card 1", "Card 2"],
     });
   } catch (error) {
-    console.error("[Vision API] Error processing request:", error);
+    console.error("Error processing vision request:", error);
     return NextResponse.json(
-      {
-        success: true,
-        transcription: "Dummy text from board",
-        flashcards: ["Card 1", "Card 2"],
-      },
-      { status: 200 }
+      { success: false, error: "Failed to process image" },
+      { status: 500 }
     );
   }
 }

@@ -47,7 +47,7 @@ export default function OmniStudyDashboard() {
   const [boardImage, setBoardImage] = useState<string | null>(null);
   const [boardImageName, setBoardImageName] = useState<string | null>(null);
   const [isDraggingOver, setIsDraggingOver] = useState(false);
-  const [isVisionLoading, setIsVisionLoading] = useState(false);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
 
   // --- Right Column: AI Tutor States ---
   const [chatInput, setChatInput] = useState("");
@@ -133,8 +133,8 @@ export default function OmniStudyDashboard() {
     }
   };
 
-  const sendImageToVisionApi = async (file: File) => {
-    setIsVisionLoading(true);
+  const sendImageToVisionAPI = async (file: File | Blob) => {
+    setIsAnalyzing(true);
     try {
       const formData = new FormData();
       formData.append("image", file);
@@ -145,11 +145,11 @@ export default function OmniStudyDashboard() {
       });
 
       const data = await response.json();
-      console.log("[Vision API Response]:", data);
+      console.log("Vision API Response:", data);
     } catch (error) {
-      console.error("[Vision API Error]:", error);
+      console.error("Error sending image to Vision API:", error);
     } finally {
-      setIsVisionLoading(false);
+      setIsAnalyzing(false);
     }
   };
 
@@ -160,7 +160,7 @@ export default function OmniStudyDashboard() {
       const url = URL.createObjectURL(file);
       setBoardImage(url);
       e.target.value = "";
-      sendImageToVisionApi(file);
+      sendImageToVisionAPI(file);
     }
   };
 
@@ -185,7 +185,7 @@ export default function OmniStudyDashboard() {
       setBoardImageName(file.name);
       const url = URL.createObjectURL(file);
       setBoardImage(url);
-      sendImageToVisionApi(file);
+      sendImageToVisionAPI(file);
     }
   };
 
@@ -235,10 +235,8 @@ export default function OmniStudyDashboard() {
     `);
     setBoardImage(`data:image/svg+xml;utf8,${svgContent}`);
     setBoardImageName("lecture_14_raft_state_machine.svg");
-    const sampleFile = new File([decodeURIComponent(svgContent)], "lecture_14_raft_state_machine.svg", {
-      type: "image/svg+xml",
-    });
-    sendImageToVisionApi(sampleFile);
+    const blob = new Blob([decodeURIComponent(svgContent)], { type: "image/svg+xml" });
+    sendImageToVisionAPI(blob);
   };
 
   const handleSendMessage = (e?: React.FormEvent) => {
@@ -484,6 +482,12 @@ export default function OmniStudyDashboard() {
             </div>
 
             <div className="flex items-center gap-2">
+              {isAnalyzing && (
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 text-xs font-medium animate-pulse">
+                  <Loader2 className="w-3 h-3 animate-spin text-cyan-400" />
+                  Analyzing...
+                </span>
+              )}
               {!boardImage && (
                 <button
                   onClick={loadSampleWhiteboard}
@@ -532,6 +536,20 @@ export default function OmniStudyDashboard() {
                 : "border-slate-800 hover:border-slate-700"
             }`}
           >
+            {/* Loading Indicator Overlay */}
+            {isAnalyzing && (
+              <div className="absolute inset-0 bg-[#070b16]/85 backdrop-blur-[2px] z-30 flex flex-col items-center justify-center gap-3">
+                <div className="relative">
+                  <div className="w-12 h-12 rounded-full border-2 border-cyan-500/20 border-t-cyan-400 animate-spin" />
+                  <Loader2 className="w-6 h-6 text-cyan-400 absolute inset-0 m-auto animate-spin" />
+                </div>
+                <div className="text-center px-4">
+                  <p className="text-xs font-semibold text-slate-100">Analyzing Whiteboard with Vision AI</p>
+                  <p className="text-[11px] text-slate-400 mt-0.5">Extracting diagrams, text, and flashcard concepts...</p>
+                </div>
+              </div>
+            )}
+
             {boardImage ? (
               <div className="w-full h-full flex flex-col p-2">
                 <div className="flex items-center justify-between px-3 py-1.5 bg-slate-900/90 rounded-lg border border-slate-800 mb-2">
@@ -551,16 +569,9 @@ export default function OmniStudyDashboard() {
                       />
                       Change
                     </label>
-                    {isVisionLoading ? (
-                      <span className="text-[10px] text-amber-300 bg-amber-950/60 border border-amber-800/50 px-2 py-0.5 rounded flex items-center gap-1.5 animate-pulse">
-                        <Loader2 className="w-3 h-3 animate-spin text-amber-400" />
-                        Analyzing...
-                      </span>
-                    ) : (
-                      <span className="text-[10px] text-cyan-400 bg-cyan-950/60 border border-cyan-800/50 px-2 py-0.5 rounded">
-                        Visual Preview Active
-                      </span>
-                    )}
+                    <span className="text-[10px] text-cyan-400 bg-cyan-950/60 border border-cyan-800/50 px-2 py-0.5 rounded">
+                      Visual Preview Active
+                    </span>
                   </div>
                 </div>
                 
@@ -572,31 +583,16 @@ export default function OmniStudyDashboard() {
                     alt="Uploaded Whiteboard or Slide"
                     className="max-h-full max-w-full object-contain rounded-lg"
                   />
-
-                  {/* Vision Processing Loading Indicator */}
-                  {isVisionLoading && (
-                    <div className="absolute inset-0 bg-slate-950/80 backdrop-blur-sm flex flex-col items-center justify-center gap-2.5 z-20 transition-all">
-                      <div className="p-3 rounded-2xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-400">
-                        <Loader2 className="w-6 h-6 animate-spin text-cyan-400" />
-                      </div>
-                      <div className="text-center">
-                        <p className="text-xs font-medium text-slate-200">Analyzing Whiteboard with Vision AI...</p>
-                        <p className="text-[10px] text-slate-400 mt-0.5">Transcribing text &amp; identifying diagrams</p>
-                      </div>
-                    </div>
-                  )}
                   
                   {/* Overlay tags simulating AI visual detection */}
-                  {!isVisionLoading && (
-                    <div className="absolute bottom-3 left-3 flex flex-wrap gap-2 pointer-events-none">
-                      <span className="text-[10px] bg-slate-950/80 backdrop-blur border border-indigo-500/40 text-indigo-300 px-2 py-0.5 rounded-md shadow">
-                        📌 Visual Content Loaded
-                      </span>
-                      <span className="text-[10px] bg-slate-950/80 backdrop-blur border border-emerald-500/40 text-emerald-300 px-2 py-0.5 rounded-md shadow">
-                        ✓ Ready for AI Analysis
-                      </span>
-                    </div>
-                  )}
+                  <div className="absolute bottom-3 left-3 flex flex-wrap gap-2 pointer-events-none">
+                    <span className="text-[10px] bg-slate-950/80 backdrop-blur border border-indigo-500/40 text-indigo-300 px-2 py-0.5 rounded-md shadow">
+                      📌 Visual Content Loaded
+                    </span>
+                    <span className="text-[10px] bg-slate-950/80 backdrop-blur border border-emerald-500/40 text-emerald-300 px-2 py-0.5 rounded-md shadow">
+                      ✓ Ready for AI Analysis
+                    </span>
+                  </div>
                 </div>
               </div>
             ) : (
