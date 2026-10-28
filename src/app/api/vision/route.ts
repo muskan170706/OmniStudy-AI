@@ -103,36 +103,15 @@ Return a JSON object with this exact structure:
       prompt,
     ];
 
-    // Use exactly gemini-1.5-pro or gemini-1.5-flash (no '-latest' suffix)
-    const candidateModels = ["gemini-1.5-pro", "gemini-1.5-flash"];
-    let result: any = null;
-    let lastError: any = null;
+    // Use strictly gemini-1.5-pro
+    const model = genAI.getGenerativeModel({
+      model: "gemini-1.5-pro",
+      generationConfig: {
+        responseMimeType: "application/json",
+      },
+    });
 
-    for (const modelName of candidateModels) {
-      try {
-        const model = genAI.getGenerativeModel({
-          model: modelName,
-          generationConfig: {
-            responseMimeType: "application/json",
-          },
-        });
-        result = await model.generateContent(contents);
-        if (result) break;
-      } catch (err: any) {
-        lastError = err;
-        const msg = err.message || "";
-        // If model not found (404), try next model candidate
-        if (msg.includes("404") || msg.includes("not found")) {
-          console.warn(`Model ${modelName} returned 404, attempting fallback...`);
-          continue;
-        }
-        throw err;
-      }
-    }
-
-    if (!result && lastError) {
-      throw lastError;
-    }
+    const result = await model.generateContent(contents);
 
     const response = await result.response;
     const responseText = response.text() || "";
