@@ -312,10 +312,28 @@ export default function OmniStudyDashboard() {
         <text x="100" y="395" fill="#cbd5e1" font-family="sans-serif" font-size="13">Majority Quorum = ⌊ n / 2 ⌋ + 1  |  Tolerates f failures out of 2f + 1 total nodes</text>
       </svg>
     `);
-    setBoardImage(`data:image/svg+xml;utf8,${svgContent}`);
-    setBoardImageName("lecture_14_raft_state_machine.svg");
-    const blob = new Blob([decodeURIComponent(svgContent)], { type: "image/svg+xml" });
-    sendImageToVisionAPI(blob);
+    const imgUri = `data:image/svg+xml;utf8,${svgContent}`;
+    setBoardImage(imgUri);
+    setBoardImageName("lecture_14_raft_state_machine.png");
+
+    if (typeof window !== "undefined") {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        canvas.width = 800;
+        canvas.height = 500;
+        const ctx = canvas.getContext("2d");
+        if (ctx) {
+          ctx.drawImage(img, 0, 0);
+          canvas.toBlob((blob) => {
+            if (blob) {
+              sendImageToVisionAPI(blob);
+            }
+          }, "image/png");
+        }
+      };
+      img.src = imgUri;
+    }
   };
 
   const handleSendMessage = (e?: React.FormEvent) => {

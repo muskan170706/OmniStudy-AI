@@ -61,21 +61,24 @@ export async function POST(request: Request) {
       }
     }
 
+    // Clean and validate base64 string
+    base64Data = base64Data.replace(/[\r\n\s]/g, "");
+
     if (!base64Data) {
       return NextResponse.json(
-        { success: false, error: "Could not extract base64 image data." },
+        { success: false, error: "Could not extract valid base64 image data." },
         { status: 400 }
       );
     }
 
+    // Normalize MIME type supported by Gemini Vision
+    const supportedMimes = ["image/jpeg", "image/png", "image/webp", "image/heic", "image/heif"];
+    const normalizedMime = supportedMimes.includes(mimeType.toLowerCase())
+      ? mimeType.toLowerCase()
+      : "image/png";
+
     // Initialize official Google Gemini API SDK
     const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({
-      model: "gemini-1.5-flash",
-      generationConfig: {
-        responseMimeType: "application/json",
-      },
-    });
 
     const prompt = `You are OmniStudy AI, an intelligent lecture assistant and whiteboard transcriber.
 Analyze the provided image of a lecture whiteboard, presentation slide, or handwritten diagram.
@@ -90,15 +93,46 @@ Return a JSON object with this exact structure:
   ]
 }`;
 
-    const result = await model.generateContent([
+    const contents = [
       {
         inlineData: {
-          mimeType,
+          mimeType: normalizedMime,
           data: base64Data,
         },
       },
       prompt,
-    ]);
+    ];
+
+    // Use gemini-1.5-flash-latest or gemini-1.5-pro as requested
+    const candidateModels = ["gemini-1.5-flash-latest", "gemini-1.5-pro", "gemini-1.5-pro-latest"];
+    let result: any = null;
+    let lastError: any = null;
+
+    for (const modelName of candidateModels) {
+      try {
+        const model = genAI.getGenerativeModel({
+          model: modelName,
+          generationConfig: {
+            responseMimeType: "application/json",
+          },
+        });
+        result = await model.generateContent(contents);
+        if (result) break;
+      } catch (err: any) {
+        lastError = err;
+        const msg = err.message || "";
+        // If model not found (404), try next model candidate
+        if (msg.includes("404") || msg.includes("not found")) {
+          console.warn(`Model ${modelName} returned 404, attempting fallback...`);
+          continue;
+        }
+        throw err;
+      }
+    }
+
+    if (!result && lastError) {
+      throw lastError;
+    }
 
     const response = await result.response;
     const responseText = response.text() || "";
