@@ -463,47 +463,61 @@ export default function OmniStudyDashboard() {
   };
 
   return (
-    <div className="h-screen bg-[#070b14] text-slate-100 flex flex-col font-sans selection:bg-indigo-500/30 selection:text-indigo-200 overflow-hidden">
-      {/* Top Navigation Bar */}
-      <header className="h-14 lg:h-16 border-b border-slate-800/80 bg-[#0b101e]/90 backdrop-blur-md sticky top-0 z-40 px-3 lg:px-6 flex items-center justify-between shrink-0">
-        <div className="flex items-center gap-3">
+    <div className="min-h-screen h-screen bg-[#06080f] text-slate-100 flex flex-col font-sans selection:bg-teal-500/30 selection:text-teal-200 overflow-hidden relative">
+      {/* Ambient Bespoke Midnight Mesh Glows */}
+      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        {/* Soft violet glow top left */}
+        <div className="absolute -top-32 -left-32 w-[34rem] h-[34rem] bg-violet-600/12 rounded-full blur-[140px]" />
+        {/* Glowing teal / emerald aura top right */}
+        <div className="absolute top-1/4 -right-32 w-[36rem] h-[36rem] bg-teal-500/10 rounded-full blur-[150px]" />
+        {/* Subtle deep indigo bottom center */}
+        <div className="absolute -bottom-40 left-1/4 w-[42rem] h-[42rem] bg-indigo-600/10 rounded-full blur-[160px]" />
+      </div>
+
+      {/* Top Glassmorphism Navigation Bar */}
+      <header className="h-16 border-b border-white/[0.07] bg-[#07080e]/75 backdrop-blur-2xl sticky top-0 z-40 px-4 lg:px-7 flex items-center justify-between shrink-0 shadow-[0_4px_24px_rgba(0,0,0,0.4)]">
+        <div className="flex items-center gap-3.5">
           {/* Universal sidebar toggle button */}
           <button
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-            className="p-2 text-slate-400 hover:text-white hover:bg-slate-800/80 rounded-xl transition-all border border-slate-800/80 hover:border-slate-700 flex items-center justify-center cursor-pointer shadow-sm group shrink-0"
+            className="p-2.5 text-slate-400 hover:text-white bg-white/[0.03] hover:bg-white/[0.08] rounded-2xl transition-all duration-300 ease-in-out border border-white/[0.08] hover:border-white/[0.18] flex items-center justify-center cursor-pointer shadow-sm hover:shadow-[0_0_15px_rgba(99,102,241,0.25)] hover:-translate-y-0.5 active:translate-y-0 shrink-0 group"
             title={isSidebarOpen ? "Collapse sidebar" : "Expand sidebar (study history & profile)"}
             aria-label="Toggle sidebar"
           >
             {isSidebarOpen ? (
-              <PanelLeftClose className="w-5 h-5 text-indigo-400 group-hover:scale-105 transition-transform" />
+              <PanelLeftClose className="w-4 h-4 text-teal-400 group-hover:scale-110 transition-transform duration-300" />
             ) : (
-              <PanelLeft className="w-5 h-5 text-slate-400 group-hover:text-indigo-400 group-hover:scale-105 transition-transform" />
+              <PanelLeft className="w-4 h-4 text-slate-400 group-hover:text-teal-400 group-hover:scale-110 transition-transform duration-300" />
             )}
           </button>
 
-          <div className="w-9 h-9 lg:w-10 lg:h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-cyan-400 p-[1px] shadow-lg shadow-indigo-500/20 shrink-0">
-            <div className="w-full h-full bg-[#0b101e] rounded-[11px] flex items-center justify-center">
-              <BrainCircuit className="w-5 h-5 text-indigo-400" />
+          <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-violet-600 via-indigo-500 to-teal-400 p-[1.5px] shadow-[0_0_20px_rgba(99,102,241,0.35)] shrink-0 group">
+            <div className="w-full h-full bg-[#0a0d18] rounded-[14px] flex items-center justify-center">
+              <BrainCircuit className="w-5 h-5 text-teal-300 group-hover:scale-110 transition-transform duration-300" />
             </div>
           </div>
           <div>
-            <h1 className="font-extrabold text-lg lg:text-xl tracking-tight text-white flex items-center gap-1.5">
-              <span>OmniStudy</span>
-              <span className="text-indigo-400 font-black">AI</span>
+            <h1 className="font-display font-extrabold text-lg lg:text-xl tracking-tight flex items-center gap-2">
+              <span className="bg-gradient-to-r from-white via-slate-100 to-slate-300 bg-clip-text text-transparent">
+                OmniStudy
+              </span>
+              <span className="bg-gradient-to-r from-teal-400 to-violet-400 bg-clip-text text-transparent font-black tracking-wider text-base">
+                AI
+              </span>
             </h1>
-            <p className="text-[11px] text-slate-300 hidden sm:block font-medium">
+            <p className="text-[11px] text-slate-400 hidden sm:block font-medium tracking-wide">
               Multimodal Real-Time Lecture & Visual Comprehension
             </p>
           </div>
         </div>
 
-        <div className="flex items-center gap-2 lg:gap-3">
-          <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-900/90 border border-slate-800 text-xs text-slate-300">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span>Session: CS 301 • Distributed Systems</span>
+        <div className="flex items-center gap-2.5 lg:gap-3.5">
+          <div className="hidden md:flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/[0.03] border border-white/[0.08] backdrop-blur-xl text-xs text-slate-300 shadow-sm">
+            <span className="w-2 h-2 rounded-full bg-teal-400 shadow-[0_0_8px_rgba(45,212,191,0.6)] animate-pulse"></span>
+            <span className="font-medium font-sans">Session: CS 301 • Distributed Systems</span>
           </div>
 
-          <div className="h-4 w-px bg-slate-800 hidden md:block"></div>
+          <div className="h-5 w-px bg-white/[0.08] hidden md:block"></div>
 
           <button
             onClick={() => {
@@ -512,31 +526,31 @@ export default function OmniStudyDashboard() {
               setBoardImageName(null);
               setAudioFileName(null);
             }}
-            className="p-2 text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 rounded-lg transition-colors text-xs flex items-center gap-1.5"
+            className="p-2 lg:px-3 lg:py-2 text-slate-300 hover:text-white bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.07] hover:border-white/[0.16] rounded-xl transition-all duration-300 ease-in-out text-xs flex items-center gap-1.5 hover:-translate-y-0.5 active:translate-y-0 shadow-sm"
             title="Clear workspace"
           >
-            <RotateCcw className="w-4 h-4" />
-            <span className="hidden sm:inline">Reset</span>
+            <RotateCcw className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline font-medium">Reset</span>
           </button>
 
           <Link
             href="/"
-            className="p-2 text-slate-400 hover:text-rose-300 hover:bg-slate-800/60 rounded-lg transition-colors text-xs flex items-center gap-1.5"
+            className="p-2 lg:px-3 lg:py-2 text-slate-300 hover:text-rose-300 bg-white/[0.03] hover:bg-rose-500/10 border border-white/[0.07] hover:border-rose-500/30 rounded-xl transition-all duration-300 ease-in-out text-xs flex items-center gap-1.5 hover:-translate-y-0.5 active:translate-y-0 shadow-sm"
             title="Sign out to Login"
           >
-            <LogOut className="w-4 h-4" />
-            <span className="hidden sm:inline">Sign Out</span>
+            <LogOut className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline font-medium">Sign Out</span>
           </Link>
         </div>
       </header>
 
       {/* Body Container: Left Sidebar + Main Workspace */}
-      <div className="flex-1 flex overflow-hidden relative">
+      <div className="flex-1 flex overflow-hidden relative z-10">
         {/* Mobile backdrop */}
         {isSidebarOpen && (
           <div
             onClick={() => setIsSidebarOpen(false)}
-            className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-40 lg:hidden"
+            className="fixed inset-0 bg-black/60 backdrop-blur-md z-40 lg:hidden"
           />
         )}
 
@@ -544,226 +558,226 @@ export default function OmniStudyDashboard() {
         {/* COLLAPSIBLE LEFT SIDEBAR: Profile & Session History     */}
         {/* ======================================================== */}
         <aside
-          className={`fixed lg:static top-0 bottom-0 left-0 z-50 lg:z-30 bg-[#090e1a] flex flex-col shrink-0 transition-all duration-300 ease-in-out overflow-hidden shadow-2xl lg:shadow-none ${
+          className={`fixed lg:static top-0 bottom-0 left-0 z-50 lg:z-30 bg-[#080b14]/85 backdrop-blur-2xl flex flex-col shrink-0 transition-all duration-300 ease-in-out overflow-hidden shadow-2xl lg:shadow-none ${
             isSidebarOpen
-              ? "w-72 xl:w-80 translate-x-0 opacity-100 border-r border-slate-800/80"
+              ? "w-72 xl:w-80 translate-x-0 opacity-100 border-r border-white/[0.08]"
               : "w-0 -translate-x-full lg:translate-x-0 opacity-0 pointer-events-none border-r-0"
           }`}
         >
           {/* Inner fixed-width container prevents content squishing during collapse transition */}
           <div className="w-72 xl:w-80 h-full flex flex-col shrink-0">
             {/* Sidebar header with collapse button */}
-            <div className="flex items-center justify-between p-3.5 border-b border-slate-800/80 bg-[#0c1222]">
-              <span className="text-xs font-semibold text-slate-200 flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-indigo-400"></span>
+            <div className="flex items-center justify-between p-4 border-b border-white/[0.07] bg-white/[0.02]">
+              <span className="text-xs font-semibold text-slate-200 flex items-center gap-2 font-display tracking-wide">
+                <span className="w-2 h-2 rounded-full bg-teal-400 shadow-[0_0_8px_rgba(45,212,191,0.6)]"></span>
                 Study History & Profile
               </span>
               <button
                 onClick={() => setIsSidebarOpen(false)}
-                className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
+                className="p-1.5 rounded-xl text-slate-400 hover:text-white hover:bg-white/[0.08] transition-all duration-300 ease-in-out cursor-pointer hover:-translate-y-0.5"
                 title="Collapse sidebar"
               >
                 <PanelLeftClose className="w-4 h-4" />
               </button>
             </div>
 
-          {/* User Profile Area (Top) */}
-          <div className="p-4 border-b border-slate-800/80 bg-[#0c1222]/80 shrink-0">
-            <div className="flex items-center gap-3 mb-3">
-              <div className="relative shrink-0">
-                <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-indigo-500 via-purple-500 to-cyan-400 p-[1.5px] shadow-lg shadow-indigo-950/40">
-                  <div className="w-full h-full rounded-[14px] bg-[#0d1322] flex items-center justify-center font-bold text-sm text-indigo-300">
-                    MK
+            {/* User Profile Area (Top) */}
+            <div className="p-4 border-b border-white/[0.07] bg-white/[0.015] shrink-0">
+              <div className="flex items-center gap-3 mb-3.5">
+                <div className="relative shrink-0">
+                  <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-violet-500 via-indigo-500 to-teal-400 p-[1.5px] shadow-[0_0_15px_rgba(99,102,241,0.3)]">
+                    <div className="w-full h-full rounded-[14px] bg-[#0c101c] flex items-center justify-center font-bold text-sm font-display text-teal-300">
+                      MK
+                    </div>
+                  </div>
+                  <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-teal-400 border-2 border-[#080b14] rounded-full shadow-[0_0_6px_rgba(45,212,191,0.8)]" />
+                </div>
+
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-xs font-bold text-white truncate font-display">Muskan Kataria</h3>
+                    <span className="text-[9px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-teal-400/15 text-teal-300 border border-teal-400/30 shadow-sm font-mono">
+                      PRO
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-slate-400 truncate mt-0.5">Computer Science • Senior</p>
+                </div>
+              </div>
+
+              {/* 'Active Days' Streak Counter */}
+              <div className="mb-3.5 p-3 rounded-2xl bg-gradient-to-r from-amber-500/10 via-orange-500/10 to-amber-500/5 border border-amber-500/25 flex items-center justify-between shadow-[inset_0_1px_0_0_rgba(251,191,36,0.15)] hover:border-amber-500/40 transition-all duration-300">
+                <div className="flex items-center gap-2.5">
+                  <div className="p-1.5 rounded-xl bg-orange-500/20 text-orange-400 shadow-sm">
+                    <Flame className="w-4 h-4 fill-orange-400" />
+                  </div>
+                  <div>
+                    <div className="text-xs font-bold text-amber-200 font-display">14 Days Streak</div>
+                    <div className="text-[10px] text-amber-400/80">Active Study Consistency</div>
                   </div>
                 </div>
-                <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-emerald-500 border-2 border-[#090e1a] rounded-full" />
-              </div>
-
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-xs font-bold text-white truncate">Muskan Kataria</h3>
-                  <span className="text-[9px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
-                    PRO
-                  </span>
-                </div>
-                <p className="text-[11px] text-slate-400 truncate">Computer Science • Senior</p>
-              </div>
-            </div>
-
-            {/* 'Active Days' Streak Counter */}
-            <div className="mb-3 p-2.5 rounded-xl bg-gradient-to-r from-amber-500/10 via-orange-500/10 to-amber-500/5 border border-orange-500/30 flex items-center justify-between shadow-sm">
-              <div className="flex items-center gap-2">
-                <div className="p-1 rounded-lg bg-orange-500/20 text-orange-400">
-                  <Flame className="w-4 h-4 fill-orange-400" />
-                </div>
-                <div>
-                  <div className="text-xs font-bold text-orange-200">14 Days Streak</div>
-                  <div className="text-[10px] text-orange-400/80">Active Study Consistency</div>
-                </div>
-              </div>
-              <span className="text-[10px] font-mono text-orange-300 bg-orange-950/70 px-2 py-0.5 rounded border border-orange-800/50">
-                Top 5%
-              </span>
-            </div>
-
-            {/* 'Recent Topics Studied' Stats */}
-            <div>
-              <div className="flex items-center justify-between text-[11px] text-slate-400 mb-1.5 font-medium">
-                <span className="flex items-center gap-1 text-slate-300">
-                  <TrendingUp className="w-3 h-3 text-cyan-400" /> Recent Topics Studied
+                <span className="text-[10px] font-mono text-amber-300 bg-amber-950/60 px-2 py-0.5 rounded-full border border-amber-800/60">
+                  Top 5%
                 </span>
-                <span className="text-cyan-400 font-semibold font-mono">18 Topics</span>
               </div>
-              <div className="grid grid-cols-2 gap-2 text-center">
-                <div className="p-2 rounded-lg bg-[#070b16] border border-slate-800/80">
-                  <span className="block text-[10px] text-slate-500">Mastered Decks</span>
-                  <span className="text-xs font-bold text-slate-200">42 Cards</span>
+
+              {/* 'Recent Topics Studied' Stats */}
+              <div>
+                <div className="flex items-center justify-between text-[11px] text-slate-400 mb-2 font-medium">
+                  <span className="flex items-center gap-1.5 text-slate-300">
+                    <TrendingUp className="w-3.5 h-3.5 text-teal-400" /> Recent Topics Studied
+                  </span>
+                  <span className="text-teal-400 font-semibold font-mono">18 Topics</span>
                 </div>
-                <div className="p-2 rounded-lg bg-[#070b16] border border-slate-800/80">
-                  <span className="block text-[10px] text-slate-500">Study Hours</span>
-                  <span className="text-xs font-bold text-slate-200">19.5 hrs</span>
+                <div className="grid grid-cols-2 gap-2 text-center">
+                  <div className="p-2.5 rounded-xl bg-white/[0.02] border border-white/[0.06] hover:border-white/[0.12] transition-colors">
+                    <span className="block text-[10px] text-slate-400 font-medium">Mastered Decks</span>
+                    <span className="text-xs font-bold text-slate-100 font-display mt-0.5 block">42 Cards</span>
+                  </div>
+                  <div className="p-2.5 rounded-xl bg-white/[0.02] border border-white/[0.06] hover:border-white/[0.12] transition-colors">
+                    <span className="block text-[10px] text-slate-400 font-medium">Study Hours</span>
+                    <span className="text-xs font-bold text-slate-100 font-display mt-0.5 block">19.5 hrs</span>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* New Study Session Button */}
-          <div className="p-3 border-b border-slate-800/60 bg-[#090e1a] shrink-0">
-            <button
-              onClick={() => {
-                setTranscript("");
-                setBoardImage(null);
-                setBoardImageName(null);
-                setAudioFileName(null);
-                const newId = Date.now().toString();
-                const newSession: StudySession = {
-                  id: newId,
-                  title: "New Untitled Lecture",
-                  course: "GENERAL",
-                  date: "Just now",
-                  cardsCount: 0,
-                };
-                setSessions([newSession, ...sessions]);
-                setSelectedSessionId(newId);
-              }}
-              className="w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-500 hover:to-indigo-600 text-white text-xs font-medium flex items-center justify-center gap-2 shadow-md shadow-indigo-900/30 transition-all hover:scale-[1.01] cursor-pointer"
-            >
-              <Plus className="w-3.5 h-3.5" />
-              <span>New Study Session</span>
-            </button>
-          </div>
+            {/* New Study Session Button */}
+            <div className="p-3.5 border-b border-white/[0.07] bg-white/[0.01] shrink-0">
+              <button
+                onClick={() => {
+                  setTranscript("");
+                  setBoardImage(null);
+                  setBoardImageName(null);
+                  setAudioFileName(null);
+                  const newId = Date.now().toString();
+                  const newSession: StudySession = {
+                    id: newId,
+                    title: "New Untitled Lecture",
+                    course: "GENERAL",
+                    date: "Just now",
+                    cardsCount: 0,
+                  };
+                  setSessions([newSession, ...sessions]);
+                  setSelectedSessionId(newId);
+                }}
+                className="w-full py-2.5 px-3 rounded-2xl bg-gradient-to-r from-violet-600 via-indigo-600 to-teal-600 hover:from-violet-500 hover:to-teal-500 text-white text-xs font-medium flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(99,102,241,0.25)] hover:shadow-[0_0_25px_rgba(45,212,191,0.35)] transition-all duration-300 ease-in-out hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
+              >
+                <Plus className="w-3.5 h-3.5" />
+                <span className="font-display font-medium">New Study Session</span>
+              </button>
+            </div>
 
-          {/* Chat / Session History Area (Middle/Bottom) */}
-          <div className="flex-1 flex flex-col min-h-0 p-3 bg-[#090e1a]">
-            <div className="flex items-center justify-between mb-2 px-1">
-              <span className="text-[11px] font-semibold text-slate-300 flex items-center gap-1.5">
-                <Clock className="w-3.5 h-3.5 text-indigo-400" />
-                <span>Session History</span>
+            {/* Chat / Session History Area (Middle/Bottom) */}
+            <div className="flex-1 flex flex-col min-h-0 p-3.5 bg-transparent">
+              <div className="flex items-center justify-between mb-2.5 px-1">
+                <span className="text-[11px] font-semibold text-slate-300 flex items-center gap-1.5 font-display tracking-wide">
+                  <Clock className="w-3.5 h-3.5 text-teal-400" />
+                  <span>Session History</span>
+                </span>
+                <span className="text-[10px] text-slate-400 bg-white/[0.04] px-2 py-0.5 rounded-full border border-white/[0.08] font-mono">
+                  {sessions.length}
+                </span>
+              </div>
+
+              {/* Quick Filter Search */}
+              <div className="relative mb-3">
+                <Search className="w-3.5 h-3.5 text-slate-500 absolute left-3 top-1/2 -translate-y-1/2" />
+                <input
+                  type="text"
+                  value={sessionSearch}
+                  onChange={(e) => setSessionSearch(e.target.value)}
+                  placeholder="Search past lectures & boards..."
+                  className="w-full bg-black/30 border border-white/[0.08] rounded-xl pl-8 pr-3 py-2 text-[11px] text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-teal-400/50 focus:border-teal-400/50 transition-all duration-300"
+                />
+              </div>
+
+              {/* Scrollable list of previous study sessions */}
+              <div className="flex-1 overflow-y-auto space-y-2 pr-1">
+                {sessions
+                  .filter(
+                    (s) =>
+                      s.title.toLowerCase().includes(sessionSearch.toLowerCase()) ||
+                      s.course.toLowerCase().includes(sessionSearch.toLowerCase())
+                  )
+                  .map((session) => {
+                    const isSelected = session.id === selectedSessionId;
+                    return (
+                      <button
+                        key={session.id}
+                        onClick={() => {
+                          setSelectedSessionId(session.id);
+                          if (isSidebarOpen) setIsSidebarOpen(false);
+                        }}
+                        className={`w-full text-left p-3 rounded-2xl border transition-all duration-300 ease-in-out flex flex-col gap-1.5 cursor-pointer group hover:-translate-y-0.5 ${
+                          isSelected
+                            ? "bg-gradient-to-r from-violet-600/20 via-indigo-600/20 to-teal-500/10 border-teal-400/40 text-white shadow-[0_0_20px_rgba(45,212,191,0.15)]"
+                            : "bg-white/[0.02] hover:bg-white/[0.05] border-white/[0.06] text-slate-300 hover:border-white/[0.15] hover:shadow-[0_4px_16px_rgba(0,0,0,0.3)]"
+                        }`}
+                      >
+                        <div className="flex items-center justify-between">
+                          <span
+                            className={`text-[9px] font-mono uppercase font-bold px-2 py-0.5 rounded-full border ${
+                              isSelected
+                                ? "bg-teal-400/20 border-teal-400/40 text-teal-300"
+                                : "bg-white/[0.04] border-white/[0.08] text-slate-400 group-hover:text-slate-200"
+                            }`}
+                          >
+                            {session.course}
+                          </span>
+                          <span className="text-[10px] text-slate-500 font-mono">{session.date}</span>
+                        </div>
+                        <p className="text-xs font-medium truncate leading-tight font-display">
+                          {session.title}
+                        </p>
+                        <div className="flex items-center justify-between text-[10px] text-slate-400 mt-0.5">
+                          <span className="flex items-center gap-1 text-[10px]">
+                            <MessageSquare className="w-2.5 h-2.5 text-teal-400/80" /> Transcribed
+                          </span>
+                          <span className="font-mono">{session.cardsCount} cards</span>
+                        </div>
+                      </button>
+                    );
+                  })}
+              </div>
+            </div>
+
+            {/* Sidebar Footer Info */}
+            <div className="p-3.5 border-t border-white/[0.07] bg-white/[0.015] flex items-center justify-between text-[10px] text-slate-500 shrink-0">
+              <span className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-teal-400 shadow-[0_0_6px_rgba(45,212,191,0.8)]"></span>
+                Auto-saved to Cloud
               </span>
-              <span className="text-[10px] text-slate-500 bg-slate-900 px-1.5 py-0.5 rounded border border-slate-800 font-mono">
-                {sessions.length}
-              </span>
-            </div>
-
-            {/* Quick Filter Search */}
-            <div className="relative mb-2.5">
-              <Search className="w-3.5 h-3.5 text-slate-500 absolute left-2.5 top-1/2 -translate-y-1/2" />
-              <input
-                type="text"
-                value={sessionSearch}
-                onChange={(e) => setSessionSearch(e.target.value)}
-                placeholder="Search past lectures & boards..."
-                className="w-full bg-[#070b16] border border-slate-800 rounded-lg pl-8 pr-2.5 py-1.5 text-[11px] text-slate-300 placeholder-slate-600 focus:outline-none focus:ring-1 focus:ring-indigo-500/50"
-              />
-            </div>
-
-            {/* Scrollable list of dummy previous study sessions */}
-            <div className="flex-1 overflow-y-auto space-y-1.5 pr-1">
-              {sessions
-                .filter(
-                  (s) =>
-                    s.title.toLowerCase().includes(sessionSearch.toLowerCase()) ||
-                    s.course.toLowerCase().includes(sessionSearch.toLowerCase())
-                )
-                .map((session) => {
-                  const isSelected = session.id === selectedSessionId;
-                  return (
-                    <button
-                      key={session.id}
-                      onClick={() => {
-                        setSelectedSessionId(session.id);
-                        if (isSidebarOpen) setIsSidebarOpen(false);
-                      }}
-                      className={`w-full text-left p-2.5 rounded-xl border transition-all flex flex-col gap-1 cursor-pointer group ${
-                        isSelected
-                          ? "bg-indigo-950/50 border-indigo-500/40 text-white shadow-sm"
-                          : "bg-slate-900/30 hover:bg-slate-900/70 border-slate-800/60 text-slate-300 hover:border-slate-700"
-                      }`}
-                    >
-                      <div className="flex items-center justify-between">
-                        <span
-                          className={`text-[9px] font-mono uppercase font-bold px-1.5 py-0.2 rounded border ${
-                            isSelected
-                              ? "bg-indigo-500/20 border-indigo-500/40 text-indigo-300"
-                              : "bg-slate-800 border-slate-700 text-slate-400 group-hover:text-slate-300"
-                          }`}
-                        >
-                          {session.course}
-                        </span>
-                        <span className="text-[10px] text-slate-500">{session.date}</span>
-                      </div>
-                      <p className="text-xs font-medium truncate leading-tight">
-                        {session.title}
-                      </p>
-                      <div className="flex items-center justify-between text-[10px] text-slate-500 mt-0.5">
-                        <span className="flex items-center gap-1 text-[10px]">
-                          <MessageSquare className="w-2.5 h-2.5" /> Transcribed
-                        </span>
-                        <span>{session.cardsCount} cards</span>
-                      </div>
-                    </button>
-                  );
-                })}
+              <span className="font-mono text-slate-400">v2.5</span>
             </div>
           </div>
-
-          {/* Sidebar Footer Info */}
-          <div className="p-3 border-t border-slate-800/80 bg-[#070b16]/70 flex items-center justify-between text-[10px] text-slate-500 shrink-0">
-            <span className="flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-              Auto-saved to Cloud
-            </span>
-            <span className="font-mono">v2.5</span>
-          </div>
-        </div>
-      </aside>
+        </aside>
 
         {/* ======================================================== */}
-        {/* MAIN CONTENT AREA: 3-Column Workspace to the Right      */}
+        {/* MAIN CONTENT AREA: 3-Column Glassmorphic Workspace       */}
         {/* ======================================================== */}
-        <main className="flex-1 h-full overflow-y-auto p-4 sm:p-5 lg:p-6 xl:p-8 bg-[#070b14] flex flex-col transition-all duration-300">
+        <main className="flex-1 h-full overflow-y-auto p-4 sm:p-5 lg:p-6 xl:p-8 bg-transparent flex flex-col transition-all duration-300">
           <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-6 xl:gap-7 min-h-0">
         
         {/* ======================================================== */}
         {/* LEFT COLUMN: Audio Capture (span 3 / 12 on large screens) */}
         {/* ======================================================== */}
-        <section className="lg:col-span-3 flex flex-col gap-4.5 lg:gap-5 bg-[#0d1322] border border-slate-800/80 rounded-2xl p-5 lg:p-6 shadow-xl relative overflow-hidden">
+        <section className="lg:col-span-3 flex flex-col gap-5 glass-panel rounded-3xl p-5 lg:p-6 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.08),0_20px_48px_-12px_rgba(0,0,0,0.6)] relative overflow-hidden group">
           {/* Subtle decorative glow */}
-          <div className="absolute top-0 right-0 w-44 h-44 bg-indigo-600/5 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute top-0 right-0 w-48 h-48 bg-rose-500/10 rounded-full blur-3xl pointer-events-none group-hover:bg-rose-500/15 transition-all duration-500" />
 
           {/* Section Header */}
-          <div className="flex items-center justify-between border-b border-slate-800/80 pb-3">
-            <div className="flex items-center gap-2.5">
-              <div className="p-2 rounded-lg bg-rose-500/10 text-rose-400 border border-rose-500/20">
+          <div className="flex items-center justify-between border-b border-white/[0.07] pb-3.5">
+            <div className="flex items-center gap-3">
+              <div className="p-2.5 rounded-2xl bg-rose-500/15 text-rose-400 border border-rose-500/25 shadow-sm">
                 <Volume2 className="w-4 h-4" />
               </div>
               <div>
-                <h2 className="font-semibold text-sm text-slate-100">Audio Capture</h2>
+                <h2 className="font-display font-semibold text-sm text-slate-100 tracking-tight">Audio Capture</h2>
                 <p className="text-[11px] text-slate-400">Microphone stream & recordings</p>
               </div>
             </div>
             {isRecording && (
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-rose-500/20 border border-rose-500/30 text-rose-300 text-xs font-mono font-medium animate-pulse">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-500/20 border border-rose-500/40 text-rose-300 text-xs font-mono font-medium animate-pulse shadow-[0_0_12px_rgba(244,63,94,0.3)]">
                 REC {formatSeconds(recordDuration)}
               </span>
             )}
@@ -772,10 +786,10 @@ export default function OmniStudyDashboard() {
           {/* Prominent 'Record Lecture' Button */}
           <button
             onClick={() => setIsRecording(!isRecording)}
-            className={`w-full py-3.5 px-4 rounded-xl font-medium text-sm flex items-center justify-center gap-3 transition-all duration-200 shadow-md ${
+            className={`w-full py-3.5 px-4 rounded-2xl font-display font-medium text-sm flex items-center justify-center gap-3 transition-all duration-300 ease-in-out shadow-lg hover:-translate-y-0.5 active:translate-y-0 cursor-pointer ${
               isRecording
-                ? "bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 text-white shadow-rose-900/30 ring-2 ring-rose-500/40"
-                : "bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-500 hover:to-indigo-600 text-white shadow-indigo-900/30 hover:scale-[1.01]"
+                ? "bg-gradient-to-r from-rose-600 via-rose-500 to-red-600 text-white shadow-rose-900/40 ring-2 ring-rose-500/50 hover:shadow-[0_0_25px_rgba(244,63,94,0.45)]"
+                : "bg-gradient-to-r from-indigo-600 via-indigo-500 to-teal-500 hover:from-indigo-500 hover:to-teal-400 text-white shadow-[0_0_20px_rgba(99,102,241,0.3)] hover:shadow-[0_0_28px_rgba(45,212,191,0.4)]"
             }`}
           >
             {isRecording ? (
@@ -793,14 +807,14 @@ export default function OmniStudyDashboard() {
 
           {/* Audio Visualizer Waveform Dummy Animation */}
           {isRecording && (
-            <div className="bg-slate-900/90 border border-rose-500/20 rounded-xl p-3 flex items-center justify-between gap-1 h-12">
-              <span className="text-[10px] text-rose-400 font-mono">LIVE AUDIO:</span>
-              <div className="flex items-center gap-1 flex-1 justify-end h-full">
+            <div className="bg-black/35 backdrop-blur-xl border border-rose-500/30 rounded-2xl p-3 flex items-center justify-between gap-2 h-14 shadow-inner">
+              <span className="text-[10px] text-rose-300 font-mono font-semibold">LIVE AUDIO:</span>
+              <div className="flex items-center gap-1.5 flex-1 justify-end h-full">
                 {[40, 75, 30, 90, 60, 45, 85, 35, 70, 95, 50, 65, 80, 40].map((height, i) => (
                   <div
                     key={i}
                     style={{ height: `${height}%` }}
-                    className="w-1 bg-gradient-to-t from-rose-600 to-pink-400 rounded-full animate-pulse"
+                    className="w-1 bg-gradient-to-t from-rose-500 to-amber-300 rounded-full animate-pulse"
                   />
                 ))}
               </div>
@@ -809,9 +823,9 @@ export default function OmniStudyDashboard() {
 
           {/* Audio File Upload Input */}
           <div>
-            <div className="text-xs font-medium text-slate-300 mb-1.5 flex items-center justify-between">
+            <div className="text-xs font-medium text-slate-300 mb-2 flex items-center justify-between font-display">
               <span>Import Audio File</span>
-              <span className="text-[10px] text-slate-500">MP3, WAV, M4A</span>
+              <span className="text-[10px] text-slate-500 font-mono">MP3, WAV, M4A</span>
             </div>
             <input
               id="audio-file-input"
@@ -824,10 +838,10 @@ export default function OmniStudyDashboard() {
             <label
               htmlFor="audio-file-input"
               onClick={() => audioFileInputRef.current?.click()}
-              className="w-full border border-dashed border-slate-700 hover:border-indigo-500/60 bg-slate-900/50 hover:bg-slate-900 transition-colors rounded-xl p-3 flex items-center justify-center gap-2 text-xs text-slate-300 group cursor-pointer"
+              className="w-full border border-dashed border-white/[0.12] hover:border-teal-400/50 bg-white/[0.02] hover:bg-white/[0.05] transition-all duration-300 ease-in-out rounded-2xl p-3.5 flex items-center justify-center gap-2.5 text-xs text-slate-300 group cursor-pointer hover:-translate-y-0.5 shadow-sm"
             >
-              <Upload className="w-3.5 h-3.5 text-slate-400 group-hover:text-indigo-400 transition-colors" />
-              <span className="truncate">
+              <Upload className="w-4 h-4 text-slate-400 group-hover:text-teal-400 transition-colors duration-300" />
+              <span className="truncate font-medium">
                 {audioFileName ? audioFileName : "Choose audio file to transcribe..."}
               </span>
             </label>
@@ -835,19 +849,19 @@ export default function OmniStudyDashboard() {
 
           {/* Live Transcript Section */}
           <div className="flex-1 flex flex-col min-h-[220px]">
-            <div className="flex items-center justify-between mb-2">
-              <label className="text-xs font-medium text-slate-300 flex items-center gap-1.5">
-                <FileAudio className="w-3.5 h-3.5 text-indigo-400" />
+            <div className="flex items-center justify-between mb-2.5">
+              <label className="text-xs font-semibold text-slate-200 flex items-center gap-2 font-display">
+                <FileAudio className="w-3.5 h-3.5 text-teal-400" />
                 <span>Live Transcript</span>
               </label>
               <div className="flex items-center gap-2">
                 {isAnalyzing ? (
-                  <span className="text-[10px] text-cyan-400 bg-cyan-950/60 border border-cyan-800/50 px-2 py-0.5 rounded flex items-center gap-1.5 animate-pulse font-medium">
+                  <span className="text-[10px] text-teal-300 bg-teal-950/70 border border-teal-500/40 px-2.5 py-0.5 rounded-full flex items-center gap-1.5 animate-pulse font-medium shadow-[0_0_10px_rgba(45,212,191,0.25)]">
                     <Loader2 className="w-2.5 h-2.5 animate-spin" />
                     Transcribing Board...
                   </span>
                 ) : (
-                  <span className="text-[10px] text-slate-500 bg-slate-900 px-2 py-0.5 rounded border border-slate-800">
+                  <span className="text-[10px] text-slate-400 bg-white/[0.04] px-2.5 py-0.5 rounded-full border border-white/[0.08] font-mono">
                     Auto-syncing
                   </span>
                 )}
@@ -858,14 +872,14 @@ export default function OmniStudyDashboard() {
               value={transcript}
               onChange={(e) => setTranscript(e.target.value)}
               placeholder="Live transcript will stream here as the lecture is recorded or uploaded..."
-              className="flex-1 w-full bg-[#080d1a] border border-slate-800 rounded-xl p-3 text-xs leading-relaxed text-slate-300 placeholder-slate-600 focus:outline-none focus:ring-1 focus:ring-indigo-500/50 resize-none font-mono"
+              className="flex-1 w-full bg-black/35 backdrop-blur-xl border border-white/[0.08] rounded-2xl p-3.5 text-xs leading-relaxed text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-teal-400/50 focus:border-teal-400/50 resize-none font-mono transition-all duration-300 shadow-inner"
             />
             
-            <div className="mt-2 flex items-center justify-between text-[11px] text-slate-500">
-              <span>{transcript.split(/\s+/).filter(Boolean).length} words captured</span>
+            <div className="mt-2.5 flex items-center justify-between text-[11px] text-slate-400">
+              <span className="font-mono">{transcript.split(/\s+/).filter(Boolean).length} words captured</span>
               <button
                 onClick={() => navigator.clipboard.writeText(transcript)}
-                className="hover:text-slate-300 transition-colors"
+                className="hover:text-teal-300 transition-colors duration-300 font-medium cursor-pointer"
               >
                 Copy text
               </button>
@@ -876,33 +890,33 @@ export default function OmniStudyDashboard() {
         {/* ======================================================== */}
         {/* MIDDLE COLUMN: Visual Board (span 5 / 12 on large screens) */}
         {/* ======================================================== */}
-        <section className="lg:col-span-5 flex flex-col gap-4.5 lg:gap-5 bg-[#0d1322] border border-slate-800/80 rounded-2xl p-5 lg:p-6 shadow-xl relative overflow-hidden">
+        <section className="lg:col-span-5 flex flex-col gap-5 glass-panel rounded-3xl p-5 lg:p-6 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.08),0_20px_48px_-12px_rgba(0,0,0,0.6)] relative overflow-hidden group">
           {/* Subtle decorative glow */}
-          <div className="absolute top-0 right-1/2 translate-x-1/2 w-64 h-64 bg-cyan-600/5 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute top-0 right-1/2 translate-x-1/2 w-72 h-72 bg-teal-500/10 rounded-full blur-3xl pointer-events-none group-hover:bg-teal-500/15 transition-all duration-500" />
 
           {/* Section Header */}
-          <div className="flex items-center justify-between border-b border-slate-800/80 pb-3">
-            <div className="flex items-center gap-2.5">
-              <div className="p-2 rounded-lg bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+          <div className="flex items-center justify-between border-b border-white/[0.07] pb-3.5">
+            <div className="flex items-center gap-3">
+              <div className="p-2.5 rounded-2xl bg-teal-500/15 text-teal-400 border border-teal-500/25 shadow-sm">
                 <ImageIcon className="w-4 h-4" />
               </div>
               <div>
-                <h2 className="font-semibold text-sm text-slate-100">Visual Board</h2>
+                <h2 className="font-display font-semibold text-sm text-slate-100 tracking-tight">Visual Board</h2>
                 <p className="text-[11px] text-slate-400">Slides, chalkboard & diagram analysis</p>
               </div>
             </div>
 
             <div className="flex items-center gap-2">
               {isAnalyzing && (
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 text-xs font-medium animate-pulse">
-                  <Loader2 className="w-3 h-3 animate-spin text-cyan-400" />
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-teal-500/20 border border-teal-500/40 text-teal-300 text-xs font-medium animate-pulse shadow-[0_0_12px_rgba(45,212,191,0.25)]">
+                  <Loader2 className="w-3 h-3 animate-spin text-teal-400" />
                   Analyzing...
                 </span>
               )}
               {!boardImage && (
                 <button
                   onClick={loadSampleWhiteboard}
-                  className="px-2.5 py-1 text-xs text-cyan-400 hover:text-cyan-300 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 rounded-lg transition-colors font-medium"
+                  className="px-3 py-1.5 text-xs text-teal-300 hover:text-white bg-teal-500/15 hover:bg-teal-500/25 border border-teal-500/30 rounded-xl transition-all duration-300 ease-in-out font-medium hover:-translate-y-0.5 active:translate-y-0 cursor-pointer shadow-sm"
                 >
                   Load Demo Board
                 </button>
@@ -913,7 +927,7 @@ export default function OmniStudyDashboard() {
                     setBoardImage(null);
                     setBoardImageName(null);
                   }}
-                  className="p-1.5 text-slate-400 hover:text-rose-400 hover:bg-slate-800/60 rounded-lg transition-colors"
+                  className="p-2 text-slate-400 hover:text-rose-400 hover:bg-white/[0.08] rounded-xl transition-all duration-300 ease-in-out hover:-translate-y-0.5 cursor-pointer"
                   title="Remove image"
                 >
                   <Trash2 className="w-4 h-4" />
@@ -924,7 +938,7 @@ export default function OmniStudyDashboard() {
 
           {/* Action Bar: Upload Whiteboard/Slide button */}
           <div className="flex flex-col sm:flex-row gap-2.5">
-            <label className="flex-1 py-2.5 px-4 rounded-xl bg-gradient-to-r from-cyan-600 to-teal-600 hover:from-cyan-500 hover:to-teal-500 text-white font-medium text-xs flex items-center justify-center gap-2 transition-all shadow-md shadow-cyan-900/20 hover:scale-[1.005] cursor-pointer select-none">
+            <label className="flex-1 py-3 px-4 rounded-2xl bg-gradient-to-r from-teal-600 via-teal-500 to-cyan-500 hover:from-teal-500 hover:to-cyan-400 text-white font-display font-medium text-xs flex items-center justify-center gap-2.5 transition-all duration-300 ease-in-out shadow-[0_0_20px_rgba(20,184,166,0.3)] hover:shadow-[0_0_28px_rgba(45,212,191,0.45)] hover:-translate-y-0.5 active:translate-y-0 cursor-pointer select-none">
               <input
                 type="file"
                 accept="image/*"
@@ -932,46 +946,46 @@ export default function OmniStudyDashboard() {
                 className="sr-only"
               />
               <Upload className="w-4 h-4" />
-              <span>Upload Whiteboard/Slide</span>
+              <span>Upload Whiteboard / Slide</span>
             </label>
           </div>
 
-          {/* Large Placeholder Box for Image Display */}
+          {/* Large Glass Placeholder Box for Image Display */}
           <div
             onDragOver={handleDragOver}
             onDragLeave={handleDragLeave}
             onDrop={handleDrop}
-            className={`flex-1 min-h-[360px] lg:min-h-[440px] bg-[#070b16] border-2 border-dashed rounded-2xl flex flex-col items-center justify-center relative overflow-hidden transition-all duration-200 group ${
+            className={`flex-1 min-h-[360px] lg:min-h-[440px] bg-black/35 backdrop-blur-xl border-2 border-dashed rounded-3xl flex flex-col items-center justify-center relative overflow-hidden transition-all duration-300 ease-in-out group/drop ${
               isDraggingOver
-                ? "border-cyan-400 bg-cyan-950/20 shadow-lg shadow-cyan-500/10"
-                : "border-slate-800 hover:border-slate-700"
+                ? "border-teal-400 bg-teal-950/20 shadow-[0_0_25px_rgba(45,212,191,0.2)]"
+                : "border-white/[0.1] hover:border-white/[0.2] shadow-inner"
             }`}
           >
             {/* Loading Indicator Overlay */}
             {isAnalyzing && (
-              <div className="absolute inset-0 bg-[#070b16]/85 backdrop-blur-[2px] z-30 flex flex-col items-center justify-center gap-3">
+              <div className="absolute inset-0 bg-[#070914]/85 backdrop-blur-md z-30 flex flex-col items-center justify-center gap-3.5">
                 <div className="relative">
-                  <div className="w-12 h-12 rounded-full border-2 border-cyan-500/20 border-t-cyan-400 animate-spin" />
-                  <Loader2 className="w-6 h-6 text-cyan-400 absolute inset-0 m-auto animate-spin" />
+                  <div className="w-14 h-14 rounded-full border-2 border-teal-500/20 border-t-teal-400 animate-spin" />
+                  <Loader2 className="w-7 h-7 text-teal-400 absolute inset-0 m-auto animate-spin" />
                 </div>
                 <div className="text-center px-4">
-                  <p className="text-xs font-semibold text-slate-100">Analyzing Whiteboard with Vision AI</p>
-                  <p className="text-[11px] text-slate-400 mt-0.5">Extracting diagrams, text, and flashcard concepts...</p>
+                  <p className="text-xs font-semibold text-slate-100 font-display">Analyzing Whiteboard with Gemini Vision AI</p>
+                  <p className="text-[11px] text-slate-400 mt-0.5">Extracting diagrams, formulas, text, and flashcard concepts...</p>
                 </div>
               </div>
             )}
 
             {boardImage ? (
-              <div className="w-full h-full flex flex-col p-2">
-                <div className="flex items-center justify-between px-3 py-1.5 bg-slate-900/90 rounded-lg border border-slate-800 mb-2">
+              <div className="w-full h-full flex flex-col p-3">
+                <div className="flex items-center justify-between px-3.5 py-2 bg-white/[0.04] backdrop-blur-md rounded-2xl border border-white/[0.08] mb-2.5">
                   <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-cyan-400"></span>
-                    <span className="text-xs text-slate-300 font-mono truncate max-w-[240px]">
+                    <span className="w-2 h-2 rounded-full bg-teal-400 shadow-[0_0_6px_rgba(45,212,191,0.8)]"></span>
+                    <span className="text-xs text-slate-200 font-mono truncate max-w-[240px]">
                       {boardImageName || "whiteboard_capture.png"}
                     </span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <label className="text-[10px] text-cyan-400 hover:text-cyan-300 hover:underline px-1 py-0.5 cursor-pointer">
+                  <div className="flex items-center gap-2.5">
+                    <label className="text-[10px] text-teal-300 hover:text-white px-2 py-0.5 rounded-full hover:bg-white/[0.05] transition-colors cursor-pointer font-medium">
                       <input
                         type="file"
                         accept="image/*"
@@ -980,27 +994,27 @@ export default function OmniStudyDashboard() {
                       />
                       Change
                     </label>
-                    <span className="text-[10px] text-cyan-400 bg-cyan-950/60 border border-cyan-800/50 px-2 py-0.5 rounded">
+                    <span className="text-[10px] text-teal-300 bg-teal-950/70 border border-teal-500/40 px-2.5 py-0.5 rounded-full font-medium">
                       Visual Preview Active
                     </span>
                   </div>
                 </div>
                 
                 {/* Image Container */}
-                <div className="relative flex-1 rounded-xl overflow-hidden bg-slate-950 border border-slate-800/60 flex items-center justify-center p-1">
+                <div className="relative flex-1 rounded-2xl overflow-hidden bg-black/50 border border-white/[0.08] flex items-center justify-center p-2 shadow-inner">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={boardImage}
                     alt="Uploaded Whiteboard or Slide"
-                    className="max-h-full max-w-full object-contain rounded-lg"
+                    className="max-h-full max-w-full object-contain rounded-xl"
                   />
                   
                   {/* Overlay tags simulating AI visual detection */}
                   <div className="absolute bottom-3 left-3 flex flex-wrap gap-2 pointer-events-none">
-                    <span className="text-[10px] bg-slate-950/80 backdrop-blur border border-indigo-500/40 text-indigo-300 px-2 py-0.5 rounded-md shadow">
+                    <span className="text-[10px] bg-black/75 backdrop-blur-md border border-teal-400/40 text-teal-300 px-2.5 py-1 rounded-full shadow-lg font-medium">
                       📌 Visual Content Loaded
                     </span>
-                    <span className="text-[10px] bg-slate-950/80 backdrop-blur border border-emerald-500/40 text-emerald-300 px-2 py-0.5 rounded-md shadow">
+                    <span className="text-[10px] bg-black/75 backdrop-blur-md border border-emerald-400/40 text-emerald-300 px-2.5 py-1 rounded-full shadow-lg font-medium">
                       ✓ Ready for AI Analysis
                     </span>
                   </div>
@@ -1010,7 +1024,7 @@ export default function OmniStudyDashboard() {
               /* Empty Placeholder State */
               <div className="text-center p-8 max-w-sm flex flex-col items-center">
                 <label
-                  className="w-16 h-16 rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-center mb-4 text-slate-500 group-hover:text-cyan-400 group-hover:border-cyan-500/30 transition-all duration-300 cursor-pointer"
+                  className="w-16 h-16 rounded-2xl bg-white/[0.03] border border-white/[0.08] flex items-center justify-center mb-4 text-slate-400 group-hover/drop:text-teal-400 group-hover/drop:border-teal-500/40 group-hover/drop:shadow-[0_0_20px_rgba(45,212,191,0.25)] transition-all duration-300 ease-in-out cursor-pointer hover:-translate-y-0.5"
                   title="Click to browse image"
                 >
                   <input
@@ -1021,14 +1035,14 @@ export default function OmniStudyDashboard() {
                   />
                   <ImageIcon className="w-8 h-8" />
                 </label>
-                <h3 className="text-sm font-semibold text-slate-200 mb-1">
+                <h3 className="text-sm font-semibold text-slate-100 mb-1 font-display">
                   No visual board loaded
                 </h3>
-                <p className="text-xs text-slate-400 mb-4 leading-relaxed">
+                <p className="text-xs text-slate-400 mb-5 leading-relaxed">
                   Drop a photo of the lecture whiteboard, PowerPoint slide, or diagram. OmniStudy will correlate it with the spoken transcript.
                 </p>
-                <div className="flex gap-2">
-                  <label className="px-3.5 py-1.5 text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg border border-slate-700 transition-colors cursor-pointer font-medium inline-flex items-center justify-center select-none">
+                <div className="flex gap-2.5">
+                  <label className="px-4 py-2 text-xs bg-white/[0.04] hover:bg-white/[0.08] text-slate-200 rounded-xl border border-white/[0.1] hover:border-white/[0.2] transition-all duration-300 ease-in-out hover:-translate-y-0.5 cursor-pointer font-medium inline-flex items-center justify-center select-none shadow-sm">
                     <input
                       type="file"
                       ref={imageFileInputRef}
@@ -1041,7 +1055,7 @@ export default function OmniStudyDashboard() {
                   <button
                     type="button"
                     onClick={loadSampleWhiteboard}
-                    className="px-3 py-1.5 text-xs bg-cyan-600/20 hover:bg-cyan-600/30 text-cyan-300 border border-cyan-500/30 rounded-lg transition-colors font-medium cursor-pointer"
+                    className="px-3.5 py-2 text-xs bg-teal-500/15 hover:bg-teal-500/25 text-teal-300 hover:text-white border border-teal-500/30 rounded-xl transition-all duration-300 ease-in-out hover:-translate-y-0.5 font-medium cursor-pointer shadow-sm"
                   >
                     View Sample Board
                   </button>
@@ -1054,25 +1068,25 @@ export default function OmniStudyDashboard() {
         {/* ======================================================== */}
         {/* RIGHT COLUMN: AI Tutor (span 4 / 12 on large screens)     */}
         {/* ======================================================== */}
-        <section className="lg:col-span-4 flex flex-col gap-4 lg:gap-4.5 bg-[#0d1322] border border-slate-800/80 rounded-2xl p-5 lg:p-6 shadow-xl relative overflow-hidden">
+        <section className="lg:col-span-4 flex flex-col gap-4 lg:gap-4.5 glass-panel rounded-3xl p-5 lg:p-6 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.08),0_20px_48px_-12px_rgba(0,0,0,0.6)] relative overflow-hidden group">
           {/* Subtle decorative glow */}
-          <div className="absolute top-0 right-0 w-44 h-44 bg-violet-600/5 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute top-0 right-0 w-48 h-48 bg-violet-600/10 rounded-full blur-3xl pointer-events-none group-hover:bg-violet-600/15 transition-all duration-500" />
 
           {/* Section Header */}
-          <div className="flex items-center justify-between border-b border-slate-800/80 pb-3">
-            <div className="flex items-center gap-2.5">
-              <div className="p-2 rounded-lg bg-violet-500/10 text-violet-400 border border-violet-500/20">
+          <div className="flex items-center justify-between border-b border-white/[0.07] pb-3.5">
+            <div className="flex items-center gap-3">
+              <div className="p-2.5 rounded-2xl bg-violet-500/15 text-violet-400 border border-violet-500/25 shadow-sm">
                 <Bot className="w-4 h-4" />
               </div>
               <div>
-                <h2 className="font-semibold text-sm text-slate-100">AI Tutor</h2>
+                <h2 className="font-display font-semibold text-sm text-slate-100 tracking-tight">AI Tutor</h2>
                 <p className="text-[11px] text-slate-400">Contextual multimodal assistant</p>
               </div>
             </div>
 
-            <div className="flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
-              <span className="text-[11px] text-slate-400">Online</span>
+            <div className="flex items-center gap-2 px-2.5 py-1 rounded-full bg-white/[0.03] border border-white/[0.08]">
+              <span className="w-2 h-2 rounded-full bg-teal-400 shadow-[0_0_6px_rgba(45,212,191,0.8)] animate-pulse"></span>
+              <span className="text-[11px] text-slate-300 font-medium">Online</span>
             </div>
           </div>
 
@@ -1080,12 +1094,12 @@ export default function OmniStudyDashboard() {
           <div className="flex items-center gap-2">
             <button
               onClick={handleGenerateFlashcards}
-              className="flex-1 py-2.5 px-3.5 rounded-xl bg-gradient-to-r from-violet-600 via-indigo-600 to-purple-600 hover:from-violet-500 hover:to-purple-500 text-white font-medium text-xs flex items-center justify-center gap-2 shadow-lg shadow-violet-900/30 transition-all hover:scale-[1.01]"
+              className="flex-1 py-3 px-4 rounded-2xl bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-display font-medium text-xs flex items-center justify-center gap-2.5 shadow-[0_0_20px_rgba(139,92,246,0.3)] hover:shadow-[0_0_28px_rgba(167,139,250,0.45)] transition-all duration-300 ease-in-out hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
             >
               <Sparkles className="w-3.5 h-3.5 text-yellow-300" />
               <span>Generate Flashcards</span>
               {flashcards.length > 0 && (
-                <span className="px-1.5 py-0.2 bg-white/20 rounded-full text-[10px]">
+                <span className="px-2 py-0.5 bg-white/20 rounded-full text-[10px] font-mono">
                   {flashcards.length}
                 </span>
               )}
@@ -1094,10 +1108,10 @@ export default function OmniStudyDashboard() {
 
           {/* Active AI Processing Indicator */}
           {isAnalyzing && (
-            <div className="bg-gradient-to-r from-violet-950/60 to-indigo-950/60 border border-violet-500/40 rounded-xl p-3 flex items-center gap-2.5 text-xs text-violet-200 animate-pulse shadow-md">
+            <div className="bg-gradient-to-r from-violet-950/70 via-purple-950/60 to-indigo-950/70 border border-violet-500/40 rounded-2xl p-3.5 flex items-center gap-3 text-xs text-violet-200 animate-pulse shadow-md">
               <Loader2 className="w-4 h-4 text-violet-400 animate-spin shrink-0" />
               <div>
-                <p className="font-semibold text-slate-100">Generating flashcards & tutor insights...</p>
+                <p className="font-semibold text-slate-100 font-display">Generating flashcards & tutor insights...</p>
                 <p className="text-[10px] text-slate-400">Gemini Vision AI is analyzing visual concepts</p>
               </div>
             </div>
@@ -1105,12 +1119,12 @@ export default function OmniStudyDashboard() {
 
           {/* Flashcard Active Preview (if generated) */}
           {flashcardsGenerated && flashcards.length > 0 && (
-            <div className="bg-gradient-to-br from-[#12142a] to-[#1a1532] border border-violet-500/30 rounded-xl p-3.5 relative shadow-inner">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-[10px] uppercase font-bold tracking-wider text-violet-400 flex items-center gap-1">
-                  <Layers className="w-3 h-3" /> Flashcard {activeFlashcardIndex + 1} of {flashcards.length}
+            <div className="bg-gradient-to-br from-violet-950/30 via-[#101426] to-[#0a0d18] border border-violet-500/30 rounded-2xl p-4 relative shadow-[inset_0_1px_0_0_rgba(167,139,250,0.15)]">
+              <div className="flex items-center justify-between mb-2.5">
+                <span className="text-[10px] uppercase font-bold tracking-wider text-violet-300 flex items-center gap-1.5 font-display">
+                  <Layers className="w-3.5 h-3.5" /> Flashcard {activeFlashcardIndex + 1} of {flashcards.length}
                 </span>
-                <span className="text-[10px] text-slate-400 bg-slate-900/60 px-2 py-0.5 rounded border border-slate-800">
+                <span className="text-[10px] text-teal-300 bg-teal-950/70 px-2.5 py-0.5 rounded-full border border-teal-500/30 font-medium">
                   {flashcards[activeFlashcardIndex]?.topic || "AI Flashcard"}
                 </span>
               </div>
@@ -1118,12 +1132,12 @@ export default function OmniStudyDashboard() {
               {/* Flip Card Interactive Display */}
               <div
                 onClick={() => setIsCardFlipped(!isCardFlipped)}
-                className="cursor-pointer min-h-[90px] bg-slate-900/80 hover:bg-slate-900 border border-slate-800/80 rounded-lg p-3 flex flex-col justify-center transition-colors"
+                className="cursor-pointer min-h-[96px] bg-black/40 hover:bg-black/55 border border-white/[0.08] hover:border-violet-500/40 rounded-xl p-3.5 flex flex-col justify-center transition-all duration-300 ease-in-out hover:-translate-y-0.5 shadow-sm"
               >
-                <span className="text-[10px] font-semibold text-slate-400 mb-1">
+                <span className="text-[10px] font-semibold text-violet-400/90 mb-1 font-mono tracking-wide">
                   {isCardFlipped ? "ANSWER (CLICK TO FLIP):" : "QUESTION (CLICK TO FLIP):"}
                 </span>
-                <p className="text-xs text-slate-200 leading-snug">
+                <p className="text-xs text-slate-100 leading-relaxed font-sans">
                   {isCardFlipped
                     ? flashcards[activeFlashcardIndex]?.answer
                     : flashcards[activeFlashcardIndex]?.question}
@@ -1131,22 +1145,22 @@ export default function OmniStudyDashboard() {
               </div>
 
               {/* Flashcard Pagination */}
-              <div className="flex items-center justify-between mt-2.5">
+              <div className="flex items-center justify-between mt-3">
                 <button
                   onClick={() => {
                     setIsCardFlipped(false);
                     setActiveFlashcardIndex((prev) => (prev > 0 ? prev - 1 : flashcards.length - 1));
                   }}
-                  className="text-[11px] text-slate-400 hover:text-slate-200 px-2 py-1 rounded bg-slate-900/60 border border-slate-800"
+                  className="text-[11px] text-slate-300 hover:text-white px-2.5 py-1 rounded-full bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] transition-all duration-300 cursor-pointer"
                 >
                   Previous
                 </button>
-                <div className="flex gap-1">
+                <div className="flex gap-1.5">
                   {flashcards.map((_, i) => (
                     <span
                       key={i}
-                      className={`w-1.5 h-1.5 rounded-full ${
-                        i === activeFlashcardIndex ? "bg-violet-400" : "bg-slate-700"
+                      className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
+                        i === activeFlashcardIndex ? "bg-teal-400 w-3 shadow-[0_0_6px_rgba(45,212,191,0.8)]" : "bg-slate-700"
                       }`}
                     />
                   ))}
@@ -1156,7 +1170,7 @@ export default function OmniStudyDashboard() {
                     setIsCardFlipped(false);
                     setActiveFlashcardIndex((prev) => (prev < flashcards.length - 1 ? prev + 1 : 0));
                   }}
-                  className="text-[11px] text-violet-300 hover:text-violet-200 px-2 py-1 rounded bg-violet-950/50 border border-violet-800/50"
+                  className="text-[11px] text-teal-300 hover:text-white px-2.5 py-1 rounded-full bg-teal-500/15 hover:bg-teal-500/25 border border-teal-500/30 transition-all duration-300 cursor-pointer"
                 >
                   Next Card
                 </button>
@@ -1165,7 +1179,7 @@ export default function OmniStudyDashboard() {
           )}
 
           {/* Chat Message History Area */}
-          <div className="flex-1 min-h-[280px] bg-[#070b16] border border-slate-800/80 rounded-xl p-3 overflow-y-auto flex flex-col gap-3">
+          <div className="flex-1 min-h-[280px] bg-black/35 backdrop-blur-xl border border-white/[0.08] rounded-2xl p-3.5 overflow-y-auto flex flex-col gap-3 shadow-inner">
             {messages.map((msg) => (
               <div
                 key={msg.id}
@@ -1174,26 +1188,26 @@ export default function OmniStudyDashboard() {
                 }`}
               >
                 <div
-                  className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 ${
+                  className={`w-7 h-7 rounded-xl flex items-center justify-center shrink-0 shadow-sm ${
                     msg.sender === "user"
-                      ? "bg-indigo-600 text-white"
-                      : "bg-violet-950 text-violet-400 border border-violet-800/50"
+                      ? "bg-gradient-to-tr from-teal-500 to-indigo-600 text-white"
+                      : "bg-white/[0.04] text-violet-300 border border-violet-500/30"
                   }`}
                 >
                   {msg.sender === "user" ? <User className="w-3.5 h-3.5" /> : <Bot className="w-3.5 h-3.5" />}
                 </div>
 
                 <div
-                  className={`rounded-2xl px-3.5 py-2.5 text-xs leading-relaxed ${
+                  className={`rounded-2xl px-4 py-2.5 text-xs leading-relaxed transition-all duration-300 ${
                     msg.sender === "user"
-                      ? "bg-indigo-600 text-white rounded-tr-none shadow-sm"
-                      : "bg-[#111728] border border-slate-800 text-slate-200 rounded-tl-none whitespace-pre-line"
+                      ? "bg-gradient-to-r from-teal-600/80 to-indigo-600/80 backdrop-blur-md text-white rounded-tr-none shadow-[0_4px_16px_rgba(20,184,166,0.2)] border border-teal-400/30"
+                      : "bg-white/[0.035] backdrop-blur-md border border-white/[0.08] text-slate-200 rounded-tl-none whitespace-pre-line shadow-[inset_0_1px_0_0_rgba(255,255,255,0.05)]"
                   }`}
                 >
                   {msg.text}
                   <div
-                    className={`text-[9px] mt-1.5 ${
-                      msg.sender === "user" ? "text-indigo-200 text-right" : "text-slate-500"
+                    className={`text-[9px] mt-1.5 font-mono ${
+                      msg.sender === "user" ? "text-teal-200/80 text-right" : "text-slate-500"
                     }`}
                   >
                     {msg.timestamp}
@@ -1205,14 +1219,14 @@ export default function OmniStudyDashboard() {
           </div>
 
           {/* Quick prompt suggestion chips */}
-          <div className="flex gap-1.5 overflow-x-auto pb-1 text-[11px] scrollbar-none">
+          <div className="flex gap-2 overflow-x-auto pb-1 text-[11px] scrollbar-none">
             {["Summarize Whiteboard", "Key Definitions", "Create Practice Quiz"].map((chip) => (
               <button
                 key={chip}
                 onClick={() => {
                   setChatInput(chip);
                 }}
-                className="whitespace-nowrap px-2.5 py-1 rounded-full bg-slate-900 border border-slate-800 text-slate-400 hover:text-slate-200 hover:border-slate-700 transition-colors"
+                className="whitespace-nowrap px-3 py-1 rounded-full bg-white/[0.03] hover:bg-white/[0.08] border border-white/[0.08] hover:border-teal-400/40 text-slate-400 hover:text-slate-100 transition-all duration-300 ease-in-out hover:-translate-y-0.5 cursor-pointer shadow-sm"
               >
                 {chip}
               </button>
@@ -1226,12 +1240,12 @@ export default function OmniStudyDashboard() {
               value={chatInput}
               onChange={(e) => setChatInput(e.target.value)}
               placeholder="Ask AI Tutor about the lecture or board..."
-              className="w-full bg-[#080d1a] border border-slate-800 rounded-xl py-3 pl-3.5 pr-11 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-violet-500/60"
+              className="w-full bg-black/35 backdrop-blur-xl border border-white/[0.08] rounded-2xl py-3 pl-4 pr-12 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-teal-400/50 focus:border-teal-400/50 transition-all duration-300 shadow-inner"
             />
             <button
               type="submit"
               disabled={!chatInput.trim()}
-              className="absolute right-2 p-1.5 rounded-lg bg-violet-600 text-white hover:bg-violet-500 disabled:opacity-40 disabled:hover:bg-violet-600 transition-colors"
+              className="absolute right-2 p-2 rounded-xl bg-gradient-to-r from-violet-600 to-teal-500 text-white hover:from-violet-500 hover:to-teal-400 disabled:opacity-40 disabled:hover:from-violet-600 disabled:hover:to-teal-500 transition-all duration-300 shadow-md hover:shadow-[0_0_12px_rgba(45,212,191,0.35)] cursor-pointer"
             >
               <Send className="w-3.5 h-3.5" />
             </button>
