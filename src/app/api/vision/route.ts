@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 export async function POST(request: Request) {
   try {
-    const apiKey = process.env.META_API_KEY || process.env.GEMINI_API_KEY;
+    const apiKey = (process.env.META_API_KEY || process.env.GEMINI_API_KEY || "").trim();
 
     if (!apiKey) {
       return NextResponse.json(
@@ -103,8 +103,8 @@ Return a JSON object with this exact structure:
       prompt,
     ];
 
-    // Use gemini-1.5-flash-latest or gemini-1.5-pro as requested
-    const candidateModels = ["gemini-1.5-flash-latest", "gemini-1.5-pro", "gemini-1.5-pro-latest"];
+    // Use exactly gemini-1.5-pro or gemini-1.5-flash (no '-latest' suffix)
+    const candidateModels = ["gemini-1.5-pro", "gemini-1.5-flash"];
     let result: any = null;
     let lastError: any = null;
 
