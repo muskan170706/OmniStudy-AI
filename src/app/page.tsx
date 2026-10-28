@@ -62,16 +62,23 @@ export default function LoginPage() {
       {/* Top Bar / Branding */}
       <header className="px-6 py-5 max-w-7xl w-full mx-auto flex items-center justify-between z-10">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-cyan-400 p-[1px] shadow-lg shadow-indigo-500/20">
-            <div className="w-full h-full bg-[#0b101e] rounded-[11px] flex items-center justify-center">
-              <BrainCircuit className="w-5 h-5 text-indigo-400" />
+          <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-teal-400 via-indigo-500 to-violet-500 p-[2px] shadow-[0_0_24px_rgba(45,212,191,0.45)] shrink-0">
+            <div className="w-full h-full bg-[#0a0d18] rounded-[14px] flex items-center justify-center">
+              <BrainCircuit className="w-6 h-6 text-teal-300" />
             </div>
           </div>
-          <div>
-            <h1 className="font-extrabold text-xl tracking-tight text-white flex items-center gap-1.5">
-              <span>OmniStudy</span>
-              <span className="text-indigo-400 font-black">AI</span>
-            </h1>
+          <div className="flex flex-col justify-center">
+            <div className="flex items-center gap-2">
+              <span className="font-display font-black text-xl lg:text-2xl tracking-tight text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)]">
+                OmniStudy
+              </span>
+              <span className="px-2 py-0.5 rounded-lg bg-gradient-to-r from-teal-500/25 to-indigo-500/25 border border-teal-400/40 text-teal-300 font-display font-black text-xs lg:text-sm tracking-wider uppercase shadow-[0_0_12px_rgba(45,212,191,0.35)]">
+                AI
+              </span>
+            </div>
+            <p className="text-xs text-slate-300 hidden sm:block font-medium tracking-normal mt-0.5">
+              Multimodal Real-Time Lecture & Visual Comprehension
+            </p>
           </div>
         </div>
 

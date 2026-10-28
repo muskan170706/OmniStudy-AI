@@ -491,21 +491,21 @@ export default function OmniStudyDashboard() {
             )}
           </button>
 
-          <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-violet-600 via-indigo-500 to-teal-400 p-[1.5px] shadow-[0_0_20px_rgba(99,102,241,0.35)] shrink-0 group">
+          <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-teal-400 via-indigo-500 to-violet-500 p-[2px] shadow-[0_0_24px_rgba(45,212,191,0.45)] shrink-0 group">
             <div className="w-full h-full bg-[#0a0d18] rounded-[14px] flex items-center justify-center">
-              <BrainCircuit className="w-5 h-5 text-teal-300 group-hover:scale-110 transition-transform duration-300" />
+              <BrainCircuit className="w-6 h-6 text-teal-300 group-hover:scale-110 transition-transform duration-300" />
             </div>
           </div>
-          <div>
-            <h1 className="font-display font-extrabold text-lg lg:text-xl tracking-tight flex items-center gap-2">
-              <span className="bg-gradient-to-r from-white via-slate-100 to-slate-300 bg-clip-text text-transparent">
+          <div className="flex flex-col justify-center">
+            <div className="flex items-center gap-2">
+              <span className="font-display font-black text-xl lg:text-2xl tracking-tight text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.8)]">
                 OmniStudy
               </span>
-              <span className="bg-gradient-to-r from-teal-400 to-violet-400 bg-clip-text text-transparent font-black tracking-wider text-base">
+              <span className="px-2 py-0.5 rounded-lg bg-gradient-to-r from-teal-500/25 to-indigo-500/25 border border-teal-400/40 text-teal-300 font-display font-black text-xs lg:text-sm tracking-wider uppercase shadow-[0_0_12px_rgba(45,212,191,0.35)]">
                 AI
               </span>
-            </h1>
-            <p className="text-[11px] text-slate-400 hidden sm:block font-medium tracking-wide">
+            </div>
+            <p className="text-xs text-slate-300 hidden sm:block font-medium tracking-normal mt-0.5">
               Multimodal Real-Time Lecture & Visual Comprehension
             </p>
           </div>
