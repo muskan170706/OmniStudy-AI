@@ -175,7 +175,7 @@ export default function OmniStudyDashboard() {
   // Hidden file inputs & scrolling refs
   const audioFileInputRef = useRef<HTMLInputElement>(null);
   const imageFileInputRef = useRef<HTMLInputElement>(null);
-  const chatBottomRef = useRef<HTMLDivElement>(null);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
 
   // Recording timer simulation
   useEffect(() => {
@@ -191,7 +191,12 @@ export default function OmniStudyDashboard() {
   }, [isRecording]);
 
   useEffect(() => {
-    chatBottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTo({
+        top: chatContainerRef.current.scrollHeight,
+        behavior: "smooth",
+      });
+    }
   }, [messages]);
 
   const formatSeconds = (sec: number) => {
@@ -766,14 +771,14 @@ export default function OmniStudyDashboard() {
           <div className="absolute top-0 right-0 w-48 h-48 bg-rose-500/10 rounded-full blur-3xl pointer-events-none group-hover:bg-rose-500/15 transition-all duration-500" />
 
           {/* Section Header */}
-          <div className="flex items-center justify-between border-b border-white/[0.07] pb-3.5">
+          <div className="flex items-center justify-between border-b border-white/[0.07] pb-3.5 shrink-0">
             <div className="flex items-center gap-3">
-              <div className="p-2.5 rounded-2xl bg-rose-500/15 text-rose-400 border border-rose-500/25 shadow-sm">
-                <Volume2 className="w-4 h-4" />
+              <div className="p-2.5 rounded-2xl bg-rose-500/15 text-rose-400 border border-rose-500/25 shadow-sm shrink-0">
+                <Volume2 className="w-5 h-5" />
               </div>
               <div>
-                <h2 className="font-display font-semibold text-sm text-slate-100 tracking-tight">Audio Capture</h2>
-                <p className="text-[11px] text-slate-400">Microphone stream & recordings</p>
+                <h2 className="font-display font-bold text-base text-white tracking-tight">Audio Capture</h2>
+                <p className="text-xs text-slate-300 font-medium">Microphone stream & recordings</p>
               </div>
             </div>
             {isRecording && (
@@ -895,14 +900,14 @@ export default function OmniStudyDashboard() {
           <div className="absolute top-0 right-1/2 translate-x-1/2 w-72 h-72 bg-teal-500/10 rounded-full blur-3xl pointer-events-none group-hover:bg-teal-500/15 transition-all duration-500" />
 
           {/* Section Header */}
-          <div className="flex items-center justify-between border-b border-white/[0.07] pb-3.5">
+          <div className="flex items-center justify-between border-b border-white/[0.07] pb-3.5 shrink-0">
             <div className="flex items-center gap-3">
-              <div className="p-2.5 rounded-2xl bg-teal-500/15 text-teal-400 border border-teal-500/25 shadow-sm">
-                <ImageIcon className="w-4 h-4" />
+              <div className="p-2.5 rounded-2xl bg-teal-500/15 text-teal-400 border border-teal-500/25 shadow-sm shrink-0">
+                <ImageIcon className="w-5 h-5" />
               </div>
               <div>
-                <h2 className="font-display font-semibold text-sm text-slate-100 tracking-tight">Visual Board</h2>
-                <p className="text-[11px] text-slate-400">Slides, chalkboard & diagram analysis</p>
+                <h2 className="font-display font-bold text-base text-white tracking-tight">Visual Board</h2>
+                <p className="text-xs text-slate-300 font-medium">Slides, chalkboard & diagram analysis</p>
               </div>
             </div>
 
@@ -1073,25 +1078,27 @@ export default function OmniStudyDashboard() {
           <div className="absolute top-0 right-0 w-48 h-48 bg-violet-600/10 rounded-full blur-3xl pointer-events-none group-hover:bg-violet-600/15 transition-all duration-500" />
 
           {/* Section Header */}
-          <div className="flex items-center justify-between border-b border-white/[0.07] pb-3.5">
+          <div className="flex items-center justify-between border-b border-white/[0.07] pb-3.5 shrink-0">
             <div className="flex items-center gap-3">
-              <div className="p-2.5 rounded-2xl bg-violet-500/15 text-violet-400 border border-violet-500/25 shadow-sm">
-                <Bot className="w-4 h-4" />
+              <div className="p-2.5 rounded-2xl bg-violet-500/20 text-violet-300 border border-violet-500/30 shadow-sm shrink-0">
+                <Bot className="w-5 h-5" />
               </div>
               <div>
-                <h2 className="font-display font-semibold text-sm text-slate-100 tracking-tight">AI Tutor</h2>
-                <p className="text-[11px] text-slate-400">Contextual multimodal assistant</p>
+                <h2 className="font-display font-bold text-base text-white tracking-tight flex items-center gap-2">
+                  <span>AI Tutor</span>
+                </h2>
+                <p className="text-xs text-slate-300 font-medium">Contextual multimodal assistant</p>
               </div>
             </div>
 
-            <div className="flex items-center gap-2 px-2.5 py-1 rounded-full bg-white/[0.03] border border-white/[0.08]">
-              <span className="w-2 h-2 rounded-full bg-teal-400 shadow-[0_0_6px_rgba(45,212,191,0.8)] animate-pulse"></span>
-              <span className="text-[11px] text-slate-300 font-medium">Online</span>
+            <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.05] border border-white/[0.1] shadow-sm shrink-0">
+              <span className="w-2 h-2 rounded-full bg-teal-400 shadow-[0_0_8px_rgba(45,212,191,0.8)] animate-pulse"></span>
+              <span className="text-xs text-slate-200 font-medium">Online</span>
             </div>
           </div>
 
           {/* Action Header: 'Generate Flashcards' Button */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 shrink-0">
             <button
               onClick={handleGenerateFlashcards}
               className="flex-1 py-3 px-4 rounded-2xl bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-display font-medium text-xs flex items-center justify-center gap-2.5 shadow-[0_0_20px_rgba(139,92,246,0.3)] hover:shadow-[0_0_28px_rgba(167,139,250,0.45)] transition-all duration-300 ease-in-out hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
@@ -1108,7 +1115,7 @@ export default function OmniStudyDashboard() {
 
           {/* Active AI Processing Indicator */}
           {isAnalyzing && (
-            <div className="bg-gradient-to-r from-violet-950/70 via-purple-950/60 to-indigo-950/70 border border-violet-500/40 rounded-2xl p-3.5 flex items-center gap-3 text-xs text-violet-200 animate-pulse shadow-md">
+            <div className="shrink-0 bg-gradient-to-r from-violet-950/70 via-purple-950/60 to-indigo-950/70 border border-violet-500/40 rounded-2xl p-3.5 flex items-center gap-3 text-xs text-violet-200 animate-pulse shadow-md">
               <Loader2 className="w-4 h-4 text-violet-400 animate-spin shrink-0" />
               <div>
                 <p className="font-semibold text-slate-100 font-display">Generating flashcards & tutor insights...</p>
@@ -1119,7 +1126,7 @@ export default function OmniStudyDashboard() {
 
           {/* Flashcard Active Preview (if generated) */}
           {flashcardsGenerated && flashcards.length > 0 && (
-            <div className="bg-gradient-to-br from-violet-950/30 via-[#101426] to-[#0a0d18] border border-violet-500/30 rounded-2xl p-4 relative shadow-[inset_0_1px_0_0_rgba(167,139,250,0.15)]">
+            <div className="shrink-0 bg-gradient-to-br from-violet-950/30 via-[#101426] to-[#0a0d18] border border-violet-500/30 rounded-2xl p-4 relative shadow-[inset_0_1px_0_0_rgba(167,139,250,0.15)]">
               <div className="flex items-center justify-between mb-2.5">
                 <span className="text-[10px] uppercase font-bold tracking-wider text-violet-300 flex items-center gap-1.5 font-display">
                   <Layers className="w-3.5 h-3.5" /> Flashcard {activeFlashcardIndex + 1} of {flashcards.length}
@@ -1179,7 +1186,10 @@ export default function OmniStudyDashboard() {
           )}
 
           {/* Chat Message History Area */}
-          <div className="flex-1 min-h-[280px] bg-black/35 backdrop-blur-xl border border-white/[0.08] rounded-2xl p-3.5 overflow-y-auto flex flex-col gap-3 shadow-inner">
+          <div
+            ref={chatContainerRef}
+            className="flex-1 min-h-[140px] bg-black/35 backdrop-blur-xl border border-white/[0.08] rounded-2xl p-3.5 overflow-y-auto flex flex-col gap-3 shadow-inner"
+          >
             {messages.map((msg) => (
               <div
                 key={msg.id}
@@ -1215,11 +1225,10 @@ export default function OmniStudyDashboard() {
                 </div>
               </div>
             ))}
-            <div ref={chatBottomRef} />
           </div>
 
           {/* Quick prompt suggestion chips */}
-          <div className="flex gap-2 overflow-x-auto pb-1 text-[11px] scrollbar-none">
+          <div className="flex gap-2 overflow-x-auto pb-1 text-[11px] scrollbar-none shrink-0">
             {["Summarize Whiteboard", "Key Definitions", "Create Practice Quiz"].map((chip) => (
               <button
                 key={chip}
@@ -1234,7 +1243,7 @@ export default function OmniStudyDashboard() {
           </div>
 
           {/* Bottom Chat Text Input Box */}
-          <form onSubmit={handleSendMessage} className="relative flex items-center">
+          <form onSubmit={handleSendMessage} className="relative flex items-center shrink-0">
             <input
               type="text"
               value={chatInput}
