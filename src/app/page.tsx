@@ -95,6 +95,8 @@ export default function OmniStudyDashboard() {
     },
   ];
 
+  const [flashcards, setFlashcards] = useState<Flashcard[]>(sampleFlashcards);
+
   // Hidden file inputs & scrolling refs
   const audioFileInputRef = useRef<HTMLInputElement>(null);
   const imageFileInputRef = useRef<HTMLInputElement>(null);
@@ -146,6 +148,83 @@ export default function OmniStudyDashboard() {
 
       const data = await response.json();
       console.log("Vision API Response:", data);
+
+      if (data.success) {
+        // 1. Update left 'Live Transcript' column with AI transcription & analysis
+        if (data.transcription) {
+          const timestamp = new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+          let newTranscriptEntry = `\n\n[Whiteboard AI Transcription • ${timestamp}]:\n${data.transcription}`;
+          if (data.analysis) {
+            newTranscriptEntry += `\n\n[Key Educational Takeaways]:\n${data.analysis}`;
+          }
+          setTranscript((prev) => (prev ? prev + newTranscriptEntry : newTranscriptEntry.trim()));
+        }
+
+        // 2. Format and display generated flashcards in the right 'AI Tutor' column
+        if (data.flashcards && Array.isArray(data.flashcards) && data.flashcards.length > 0) {
+          const newCards: Flashcard[] = data.flashcards.map((card: any, idx: number) => {
+            if (typeof card === "string") {
+              if (card.includes("|")) {
+                const [q, a] = card.split("|");
+                return {
+                  question: q.replace(/^question:\s*/i, "").trim(),
+                  answer: (a || "").replace(/^answer:\s*/i, "").trim(),
+                  topic: "Whiteboard AI",
+                };
+              } else if (card.toLowerCase().includes("answer:")) {
+                const parts = card.split(/answer:/i);
+                return {
+                  question: parts[0].replace(/^question:\s*/i, "").trim(),
+                  answer: (parts[1] || "").trim(),
+                  topic: "Whiteboard AI",
+                };
+              }
+              return {
+                question: card,
+                answer: "Core concept identified by Gemini Vision AI.",
+                topic: `Card ${idx + 1}`,
+              };
+            } else if (typeof card === "object" && card !== null) {
+              return {
+                question: card.question || card.q || "Key Concept",
+                answer: card.answer || card.a || "Analysis summary",
+                topic: card.topic || card.tag || "Whiteboard AI",
+              };
+            }
+            return {
+              question: String(card),
+              answer: "Study concept",
+              topic: "AI Study",
+            };
+          });
+
+          setFlashcards(newCards);
+          setFlashcardsGenerated(true);
+          setActiveFlashcardIndex(0);
+          setIsCardFlipped(false);
+
+          // 3. Post summary message in AI Tutor chat history
+          const tutorMsg: Message = {
+            id: Date.now().toString(),
+            sender: "ai",
+            text: data.analysis
+              ? `✨ **Whiteboard Transcribed & Analyzed!**\n\n${data.analysis}\n\nI've generated **${newCards.length} flashcards** from this board for you to review above!`
+              : `✨ **Whiteboard Transcribed!**\n\nI've extracted the notes into your Live Transcript and generated **${newCards.length} flashcards** for your study session.`,
+            timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+            flashcardPreview: newCards[0],
+          };
+          setMessages((prev) => [...prev, tutorMsg]);
+        }
+      } else {
+        console.warn("Vision API returned non-success response:", data.error);
+        const errMsg: Message = {
+          id: Date.now().toString(),
+          sender: "ai",
+          text: `⚠️ **Vision API Notice**: ${data.error || "Could not analyze the board. Please check your API key configuration."}`,
+          timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+        };
+        setMessages((prev) => [...prev, errMsg]);
+      }
     } catch (error) {
       console.error("Error sending image to Vision API:", error);
     } finally {
@@ -283,9 +362,9 @@ export default function OmniStudyDashboard() {
     const flashcardMsg: Message = {
       id: Date.now().toString(),
       sender: "ai",
-      text: "✨ I've generated 3 high-yield study flashcards based on the Raft consensus lecture and whiteboard diagrams!",
+      text: `✨ Reviewing ${flashcards.length} high-yield study flashcards based on the lecture whiteboard and transcript!`,
       timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
-      flashcardPreview: sampleFlashcards[0],
+      flashcardPreview: flashcards[0],
     };
     setMessages((prev) => [...prev, flashcardMsg]);
   };
@@ -438,9 +517,18 @@ export default function OmniStudyDashboard() {
                 <FileAudio className="w-3.5 h-3.5 text-indigo-400" />
                 <span>Live Transcript</span>
               </label>
-              <span className="text-[10px] text-slate-500 bg-slate-900 px-2 py-0.5 rounded border border-slate-800">
-                Auto-syncing
-              </span>
+              <div className="flex items-center gap-2">
+                {isAnalyzing ? (
+                  <span className="text-[10px] text-cyan-400 bg-cyan-950/60 border border-cyan-800/50 px-2 py-0.5 rounded flex items-center gap-1.5 animate-pulse font-medium">
+                    <Loader2 className="w-2.5 h-2.5 animate-spin" />
+                    Transcribing Board...
+                  </span>
+                ) : (
+                  <span className="text-[10px] text-slate-500 bg-slate-900 px-2 py-0.5 rounded border border-slate-800">
+                    Auto-syncing
+                  </span>
+                )}
+              </div>
             </div>
 
             <textarea
@@ -673,18 +761,34 @@ export default function OmniStudyDashboard() {
             >
               <Sparkles className="w-3.5 h-3.5 text-yellow-300" />
               <span>Generate Flashcards</span>
+              {flashcards.length > 0 && (
+                <span className="px-1.5 py-0.2 bg-white/20 rounded-full text-[10px]">
+                  {flashcards.length}
+                </span>
+              )}
             </button>
           </div>
 
+          {/* Active AI Processing Indicator */}
+          {isAnalyzing && (
+            <div className="bg-gradient-to-r from-violet-950/60 to-indigo-950/60 border border-violet-500/40 rounded-xl p-3 flex items-center gap-2.5 text-xs text-violet-200 animate-pulse shadow-md">
+              <Loader2 className="w-4 h-4 text-violet-400 animate-spin shrink-0" />
+              <div>
+                <p className="font-semibold text-slate-100">Generating flashcards & tutor insights...</p>
+                <p className="text-[10px] text-slate-400">Gemini Vision AI is analyzing visual concepts</p>
+              </div>
+            </div>
+          )}
+
           {/* Flashcard Active Preview (if generated) */}
-          {flashcardsGenerated && (
+          {flashcardsGenerated && flashcards.length > 0 && (
             <div className="bg-gradient-to-br from-[#12142a] to-[#1a1532] border border-violet-500/30 rounded-xl p-3.5 relative shadow-inner">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-[10px] uppercase font-bold tracking-wider text-violet-400 flex items-center gap-1">
-                  <Layers className="w-3 h-3" /> Flashcard {activeFlashcardIndex + 1} of {sampleFlashcards.length}
+                  <Layers className="w-3 h-3" /> Flashcard {activeFlashcardIndex + 1} of {flashcards.length}
                 </span>
                 <span className="text-[10px] text-slate-400 bg-slate-900/60 px-2 py-0.5 rounded border border-slate-800">
-                  {sampleFlashcards[activeFlashcardIndex].topic}
+                  {flashcards[activeFlashcardIndex]?.topic || "AI Flashcard"}
                 </span>
               </div>
 
@@ -698,8 +802,8 @@ export default function OmniStudyDashboard() {
                 </span>
                 <p className="text-xs text-slate-200 leading-snug">
                   {isCardFlipped
-                    ? sampleFlashcards[activeFlashcardIndex].answer
-                    : sampleFlashcards[activeFlashcardIndex].question}
+                    ? flashcards[activeFlashcardIndex]?.answer
+                    : flashcards[activeFlashcardIndex]?.question}
                 </p>
               </div>
 
@@ -708,14 +812,14 @@ export default function OmniStudyDashboard() {
                 <button
                   onClick={() => {
                     setIsCardFlipped(false);
-                    setActiveFlashcardIndex((prev) => (prev > 0 ? prev - 1 : sampleFlashcards.length - 1));
+                    setActiveFlashcardIndex((prev) => (prev > 0 ? prev - 1 : flashcards.length - 1));
                   }}
                   className="text-[11px] text-slate-400 hover:text-slate-200 px-2 py-1 rounded bg-slate-900/60 border border-slate-800"
                 >
                   Previous
                 </button>
                 <div className="flex gap-1">
-                  {sampleFlashcards.map((_, i) => (
+                  {flashcards.map((_, i) => (
                     <span
                       key={i}
                       className={`w-1.5 h-1.5 rounded-full ${
@@ -727,7 +831,7 @@ export default function OmniStudyDashboard() {
                 <button
                   onClick={() => {
                     setIsCardFlipped(false);
-                    setActiveFlashcardIndex((prev) => (prev < sampleFlashcards.length - 1 ? prev + 1 : 0));
+                    setActiveFlashcardIndex((prev) => (prev < flashcards.length - 1 ? prev + 1 : 0));
                   }}
                   className="text-[11px] text-violet-300 hover:text-violet-200 px-2 py-1 rounded bg-violet-950/50 border border-violet-800/50"
                 >
