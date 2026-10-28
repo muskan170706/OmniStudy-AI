@@ -25,6 +25,7 @@ import {
   Clock,
   TrendingUp,
   PanelLeft,
+  PanelLeftClose,
   X,
   Search,
 } from "lucide-react";
@@ -466,13 +467,18 @@ export default function OmniStudyDashboard() {
       {/* Top Navigation Bar */}
       <header className="h-14 lg:h-16 border-b border-slate-800/80 bg-[#0b101e]/90 backdrop-blur-md sticky top-0 z-40 px-3 lg:px-6 flex items-center justify-between shrink-0">
         <div className="flex items-center gap-3">
-          {/* Mobile sidebar toggle button */}
+          {/* Universal sidebar toggle button */}
           <button
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-            className="lg:hidden p-2 text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 rounded-lg transition-colors"
-            title="Toggle session history sidebar"
+            className="p-2 text-slate-400 hover:text-white hover:bg-slate-800/80 rounded-xl transition-all border border-slate-800/80 hover:border-slate-700 flex items-center justify-center cursor-pointer shadow-sm group shrink-0"
+            title={isSidebarOpen ? "Collapse sidebar" : "Expand sidebar (study history & profile)"}
+            aria-label="Toggle sidebar"
           >
-            <PanelLeft className="w-5 h-5 text-indigo-400" />
+            {isSidebarOpen ? (
+              <PanelLeftClose className="w-5 h-5 text-indigo-400 group-hover:scale-105 transition-transform" />
+            ) : (
+              <PanelLeft className="w-5 h-5 text-slate-400 group-hover:text-indigo-400 group-hover:scale-105 transition-transform" />
+            )}
           </button>
 
           <div className="w-9 h-9 lg:w-10 lg:h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-cyan-400 p-[1px] shadow-lg shadow-indigo-500/20 shrink-0">
@@ -535,23 +541,31 @@ export default function OmniStudyDashboard() {
         )}
 
         {/* ======================================================== */}
-        {/* NEW FIXED LEFT SIDEBAR: Profile & Session History        */}
+        {/* COLLAPSIBLE LEFT SIDEBAR: Profile & Session History     */}
         {/* ======================================================== */}
         <aside
-          className={`fixed lg:static top-0 bottom-0 left-0 z-50 lg:z-auto w-72 xl:w-80 bg-[#090e1a] border-r border-slate-800/80 flex flex-col shrink-0 transition-transform duration-300 ease-in-out ${
-            isSidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+          className={`fixed lg:static top-0 bottom-0 left-0 z-50 lg:z-30 bg-[#090e1a] flex flex-col shrink-0 transition-all duration-300 ease-in-out overflow-hidden shadow-2xl lg:shadow-none ${
+            isSidebarOpen
+              ? "w-72 xl:w-80 translate-x-0 opacity-100 border-r border-slate-800/80"
+              : "w-0 -translate-x-full lg:translate-x-0 opacity-0 pointer-events-none border-r-0"
           }`}
         >
-          {/* Mobile close bar */}
-          <div className="lg:hidden flex items-center justify-between p-3.5 border-b border-slate-800 bg-[#0c1222]">
-            <span className="text-xs font-semibold text-slate-200">Study History & Profile</span>
-            <button
-              onClick={() => setIsSidebarOpen(false)}
-              className="p-1.5 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800 transition-colors"
-            >
-              <X className="w-4 h-4" />
-            </button>
-          </div>
+          {/* Inner fixed-width container prevents content squishing during collapse transition */}
+          <div className="w-72 xl:w-80 h-full flex flex-col shrink-0">
+            {/* Sidebar header with collapse button */}
+            <div className="flex items-center justify-between p-3.5 border-b border-slate-800/80 bg-[#0c1222]">
+              <span className="text-xs font-semibold text-slate-200 flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-indigo-400"></span>
+                Study History & Profile
+              </span>
+              <button
+                onClick={() => setIsSidebarOpen(false)}
+                className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
+                title="Collapse sidebar"
+              >
+                <PanelLeftClose className="w-4 h-4" />
+              </button>
+            </div>
 
           {/* User Profile Area (Top) */}
           <div className="p-4 border-b border-slate-800/80 bg-[#0c1222]/80 shrink-0">
@@ -721,18 +735,19 @@ export default function OmniStudyDashboard() {
             </span>
             <span className="font-mono">v2.5</span>
           </div>
-        </aside>
+        </div>
+      </aside>
 
         {/* ======================================================== */}
         {/* MAIN CONTENT AREA: 3-Column Workspace to the Right      */}
         {/* ======================================================== */}
-        <main className="flex-1 h-full overflow-y-auto p-3 lg:p-4 bg-[#070b14] flex flex-col">
-          <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-3.5 lg:gap-4 min-h-0">
+        <main className="flex-1 h-full overflow-y-auto p-4 sm:p-5 lg:p-6 xl:p-8 bg-[#070b14] flex flex-col transition-all duration-300">
+          <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-6 xl:gap-7 min-h-0">
         
         {/* ======================================================== */}
         {/* LEFT COLUMN: Audio Capture (span 3 / 12 on large screens) */}
         {/* ======================================================== */}
-        <section className="lg:col-span-3 flex flex-col gap-4 bg-[#0d1322] border border-slate-800/80 rounded-2xl p-4 lg:p-5 shadow-xl relative overflow-hidden">
+        <section className="lg:col-span-3 flex flex-col gap-4.5 lg:gap-5 bg-[#0d1322] border border-slate-800/80 rounded-2xl p-5 lg:p-6 shadow-xl relative overflow-hidden">
           {/* Subtle decorative glow */}
           <div className="absolute top-0 right-0 w-44 h-44 bg-indigo-600/5 rounded-full blur-3xl pointer-events-none" />
 
@@ -861,7 +876,7 @@ export default function OmniStudyDashboard() {
         {/* ======================================================== */}
         {/* MIDDLE COLUMN: Visual Board (span 5 / 12 on large screens) */}
         {/* ======================================================== */}
-        <section className="lg:col-span-5 flex flex-col gap-4 bg-[#0d1322] border border-slate-800/80 rounded-2xl p-4 lg:p-5 shadow-xl relative overflow-hidden">
+        <section className="lg:col-span-5 flex flex-col gap-4.5 lg:gap-5 bg-[#0d1322] border border-slate-800/80 rounded-2xl p-5 lg:p-6 shadow-xl relative overflow-hidden">
           {/* Subtle decorative glow */}
           <div className="absolute top-0 right-1/2 translate-x-1/2 w-64 h-64 bg-cyan-600/5 rounded-full blur-3xl pointer-events-none" />
 
@@ -1039,7 +1054,7 @@ export default function OmniStudyDashboard() {
         {/* ======================================================== */}
         {/* RIGHT COLUMN: AI Tutor (span 4 / 12 on large screens)     */}
         {/* ======================================================== */}
-        <section className="lg:col-span-4 flex flex-col gap-3 bg-[#0d1322] border border-slate-800/80 rounded-2xl p-4 lg:p-5 shadow-xl relative overflow-hidden">
+        <section className="lg:col-span-4 flex flex-col gap-4 lg:gap-4.5 bg-[#0d1322] border border-slate-800/80 rounded-2xl p-5 lg:p-6 shadow-xl relative overflow-hidden">
           {/* Subtle decorative glow */}
           <div className="absolute top-0 right-0 w-44 h-44 bg-violet-600/5 rounded-full blur-3xl pointer-events-none" />
 
