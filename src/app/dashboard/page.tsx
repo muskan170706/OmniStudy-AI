@@ -400,15 +400,11 @@ export default function OmniStudyDashboard() {
             </div>
           </div>
           <div>
-            <div className="flex items-center gap-2">
-              <h1 className="font-bold text-lg tracking-tight bg-gradient-to-r from-white via-slate-200 to-slate-400 bg-clip-text text-transparent">
-                OmniStudy <span className="text-indigo-400">AI</span>
-              </h1>
-              <span className="text-[10px] uppercase font-semibold px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 tracking-wider">
-                Copilot
-              </span>
-            </div>
-            <p className="text-xs text-slate-400 hidden sm:block">
+            <h1 className="font-extrabold text-xl tracking-tight text-white flex items-center gap-1.5">
+              <span>OmniStudy</span>
+              <span className="text-indigo-400 font-black">AI</span>
+            </h1>
+            <p className="text-xs text-slate-300 hidden sm:block font-medium">
               Multimodal Real-Time Lecture & Visual Comprehension
             </p>
           </div>
